@@ -1,0 +1,111 @@
+[
+    {
+      "id": 1,
+      "title": "John Doe Photography",
+      "price": "3000 per day",
+      "location": "Mumbai",
+      "dp": "https://images.unsplash.com/photo-1457904297262-2dcf97b883ef?q=80&w=1917&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "rating": "4.5",
+      "tag": "photographer"
+    },
+    {
+      "id": 2,
+      "title": "Shutter Bliss Studio",
+      "price": "2500 per day",
+      "location": "Noida",
+      "dp": "https://images.unsplash.com/photo-1654156984213-1ec017810bf7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHBob3RvZ3JhcGhlciUyMGluJTIwd2VkZGluZ3xlbnwwfDB8MHx8fDA%3D",
+      "rating": "4.3",
+      "tag": "photographer"
+    },
+    {
+      "id": 3,
+      "title": "Capture Moments",
+      "price": "2800 per day",
+      "location": "Delhi",
+      "dp": "https://images.unsplash.com/photo-1629756048377-09540f52caa1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHBob3RvZ3JhcGhlciUyMGluJTIwd2VkZGluZ3xlbnwwfDB8MHx8fDA%3D",
+      "rating": "4.6",
+      "tag": "photographer"
+    },
+    {
+      "id": 4,
+      "title": "Candid Clicks",
+      "price": "3200 per day",
+      "location": "Bengaluru",
+      "dp": "https://plus.unsplash.com/premium_photo-1682098354910-6823d8fb2ac2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGhvdG9ncmFwaGVyfGVufDB8MHwwfHx8fDA%3D",
+      "rating": "4.4",
+      "tag": "photographer"
+    },
+    {
+      "id": 5,
+      "title": "Lens Art Studio",
+      "price": "3500 per day",
+      "location": "Chennai",
+      "dp": "https://plus.unsplash.com/premium_photo-1683141123730-04fd4b1a57c2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjF8fHBob3RvZ3JhcGhlcnxlbnwwfDB8MHx8fDA%3D",
+      "rating": "4.7",
+      "tag": "photographer"
+    },
+    {
+      "id": 6,
+      "title": "Pixel Paradise",
+      "price": "2700 per day",
+      "location": "Mumbai",
+      "dp": "https://plus.unsplash.com/premium_photo-1684783848349-fe1d51ab831b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzN8fHBob3RvZ3JhcGhlcnxlbnwwfDB8MHx8fDA%3D",
+      "rating": "4.2",
+      "tag": "photographer"
+    },
+    {
+      "id": 7,
+      "title": "Focus Studio",
+      "price": "2900 per day",
+      "location": "Delhi",
+      "dp": "https://images.unsplash.com/photo-1682687219800-bba120d709c5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDR8fHBob3RvZ3JhcGhlcnxlbnwwfDB8MHx8fDA%3D",
+      "rating": "4.6",
+      "tag": "photographer"
+    },
+    {
+      "id": 8,
+      "title": "Vivid Moments",
+      "price": "3100 per day",
+      "location": "Noida",
+      "dp": "https://images.unsplash.com/photo-1457267492735-d93fd34397d3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTB8fHBob3RvZ3JhcGhlcnxlbnwwfDB8MHx8fDA%3D",
+      "rating": "4.5",
+      "tag": "photographer"
+    },
+    {
+      "id": 9,
+      "title": "Eternal Frames",
+      "price": "3300 per day",
+      "location": "Bengaluru",
+      "dp": "https://images.unsplash.com/photo-1457904297262-2dcf97b883ef?q=80&w=1917&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "rating": "4.3",
+      "tag": "photographer"
+    },
+    {
+      "id": 10,
+      "title": "Memory Captured",
+      "price": "3000 per day",
+      "location": "Chennai",
+      "dp": "https://images.unsplash.com/photo-1457904297262-2dcf97b883ef?q=80&w=1917&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "rating": "4.7",
+      "tag": "photographer"
+    },
+    {
+      "id": 11,
+      "title": "Serene Photography",
+      "price": "2600 per day",
+      "location": "Mumbai",
+      "dp": "https://images.unsplash.com/photo-1457267492735-d93fd34397d3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTB8fHBob3RvZ3JhcGhlcnxlbnwwfDB8MHx8fDA%3D",
+      "rating": "4.2",
+      "tag": "photographer"
+    },
+    {
+      "id": 12,
+      "title": "True Vision Photography",
+      "price": "3100 per day",
+      "location": "Delhi",
+      "dp": "https://images.unsplash.com/photo-1457904297262-2dcf97b883ef?q=80&w=1917&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "rating": "4.8",
+      "tag": "photographer"
+    }
+  ]
+  

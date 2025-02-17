@@ -1,0 +1,29 @@
+{
+    "categories": [
+        {   "id": 1,
+            "category": "c1",
+            "price": 1265
+        },
+        {   
+            "id": 2,
+            "category": "c2",
+            "price": 1265
+        },
+        {
+            "id": 3,
+            "category": "c3",
+            "price": 1265
+        },
+        {
+            "id": 4,
+            "category": "c4",
+            "price": 1265
+        },
+        {
+            "id": 5,
+            "category": "c5",
+            "price": 1265
+        }
+    ]
+
+}

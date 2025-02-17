@@ -1,0 +1,93 @@
+[
+    {
+      "id": 1,
+      "title": "Gourmet Delight Catering",
+      "price": "₹1500 per plate",
+      "location": "Mumbai",
+      "dp": "https://images.unsplash.com/photo-1556912167-f556f1d06c61?w=500&auto=format&fit=crop&q=60",
+      "rating": "4.7",
+      "tag": "caterers"
+    },
+    {
+      "id": 2,
+      "title": "Royal Feast Caterers",
+      "price": "₹1800 per plate",
+      "location": "Delhi",
+      "dp": "https://images.unsplash.com/photo-1514546370131-9a210f0b8264?w=500&auto=format&fit=crop&q=60",
+      "rating": "4.5",
+      "tag": "caterers"
+    },
+    {
+      "id": 3,
+      "title": "Grand Banquet Catering",
+      "price": "₹2000 per plate",
+      "location": "Bengaluru",
+      "dp": "https://images.unsplash.com/photo-1498579809087-1f3e132fe638?w=500&auto=format&fit=crop&q=60",
+      "rating": "4.6",
+      "tag": "caterers"
+    },
+    {
+      "id": 4,
+      "title": "Saffron Spice Caterers",
+      "price": "₹1700 per plate",
+      "location": "Chennai",
+      "dp": "https://images.unsplash.com/photo-1578864575292-2640aa5b78e8?w=500&auto=format&fit=crop&q=60",
+      "rating": "4.4",
+      "tag": "caterers"
+    },
+    {
+      "id": 5,
+      "title": "Exquisite Cuisine",
+      "price": "₹2200 per plate",
+      "location": "Noida",
+      "dp": "https://images.unsplash.com/photo-1559628233-d9e07b2a6a5d?w=500&auto=format&fit=crop&q=60",
+      "rating": "4.8",
+      "tag": "caterers"
+    },
+    {
+      "id": 6,
+      "title": "Flavors of India",
+      "price": "₹1600 per plate",
+      "location": "Kolkata",
+      "dp": "https://images.unsplash.com/photo-1514851321567-f9dfd8c3691f?w=500&auto=format&fit=crop&q=60",
+      "rating": "4.3",
+      "tag": "caterers"
+    },
+    {
+      "id": 7,
+      "title": "Heritage Caterers",
+      "price": "₹1900 per plate",
+      "location": "Hyderabad",
+      "dp": "https://images.unsplash.com/photo-1509475826633-fed577a2c71b?w=500&auto=format&fit=crop&q=60",
+      "rating": "4.6",
+      "tag": "caterers"
+    },
+    {
+      "id": 8,
+      "title": "Taste Paradise",
+      "price": "₹1400 per plate",
+      "location": "Pune",
+      "dp": "https://images.unsplash.com/photo-1550336799-593933201d91?w=500&auto=format&fit=crop&q=60",
+      "rating": "4.4",
+      "tag": "caterers"
+    },
+    {
+      "id": 9,
+      "title": "Urban Platter Catering",
+      "price": "₹2000 per plate",
+      "location": "Mumbai",
+      "dp": "https://images.unsplash.com/photo-1542897644-64c78e382dbd?w=500&auto=format&fit=crop&q=60",
+      "rating": "4.5",
+      "tag": "caterers"
+    },
+    {
+      "id": 10,
+      "title": "Spice and Serve",
+      "price": "₹1550 per plate",
+      "location": "Ahmedabad",
+      "dp": "https://images.unsplash.com/photo-1564866657315-6e0c20c7b3aa?w=500&auto=format&fit=crop&q=60",
+      "rating": "4.3",
+      "tag": "caterers"
+    }
+  ]
+  
