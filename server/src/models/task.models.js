@@ -11,8 +11,7 @@ const taskSchema = new Schema({
   },
   done_by: {
     type: Date,
-  },
-  created_at: { type: Date, default: Date.now },
+  }
 },
 {timestamps: true});
 

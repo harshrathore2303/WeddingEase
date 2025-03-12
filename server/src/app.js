@@ -33,10 +33,15 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 import authRoutes from "./routes/auth.route.js";
-import guestRoutes from "./routes/guest.route.js"
+import guestRoutes from "./routes/guest.route.js";
+import eventRouter from "./routes/event.route.js";
+import budgetRouter from "./routes/budget.route.js";
+import checkListRouter from "./routes/checkList.route.js";
 
-app.use("/api", authRoutes)
-app.use("/api", guestRoutes)
-
+app.use("/api", authRoutes);
+app.use("/api", guestRoutes);
+app.use("/api", eventRouter);
+app.use("/api", budgetRouter);
+app.use("/api", checkListRouter);
 
 export { app };
