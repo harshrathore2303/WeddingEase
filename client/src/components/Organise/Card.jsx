@@ -38,7 +38,7 @@ const Card = ({ id, detail }) => {
       </div>
 
       {/* Button */}
-      <button className="w-full bg-base-but text-white rounded-lg py-2 mt-4 hover:bg-base-butHover transition" onClick={() => {navigate(`/mainpage/showdetails?tag=${detail.tag}&id=${id}`)}}>
+      <button className="w-full bg-base-but text-white rounded-lg py-2 mt-4 hover:bg-base-butHover transition" onClick={() => {navigate(`/organize/mainpage/${detail.tag}/${id}`)}}>
         Book Now
       </button>
     </div>

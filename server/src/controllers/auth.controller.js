@@ -61,23 +61,27 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { username, email, phone, password } = req.body;
-
-    if (!username && !email && !phone) {
-      return res.status(400).json({ message: "valid credential is required" });
+    const { username, email, password } = req.body;
+    console.log(req.body)
+    if (!username && !email) {
+      return res.status(400).json({ message: "Enter valid credentials are required" });
     }
 
     const user = await User.findOne({
-      $or: [{ username }, { email }, { phone }],
+      $or: [{ username }, { email }],
     });
+
+    if (!user){
+      return res.status(400).json({ message: "Username or email doesn't exist" });
+    }
 
     const isPasswordValid = await user.isPasswordCorrect(password);
 
     if (!isPasswordValid) {
-      return res.status(404).json({ message: "invalid credential" });
+      return res.status(404).json({ message: "Invalid password" });
     }
 
-    console.log(user._id);
+    // console.log(user._id);
 
     const token = await generateAccessToken(user._id);
 

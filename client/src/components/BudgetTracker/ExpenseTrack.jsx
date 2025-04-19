@@ -1,49 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { FaRupeeSign } from "react-icons/fa";
 import ExpenseItem from './ExpenseItem';
+import useBudgetStore from '../../store/useBudgetStore';
 
 const ExpenseTrack = () => {
-    const [categories, setCategories] = useState([]);
+    const { categories, fetchBudgetItems, updateBudgetItem } = useBudgetStore();
 
     useEffect(() => {
         fetchBudgetItems();
+    }, [fetchBudgetItems]);
 
-        const onBudgetChange = () => fetchBudgetItems();
-        window.addEventListener('budgetChange', onBudgetChange);
-
-        return () => window.removeEventListener('budgetChange', onBudgetChange);
-    }, []);
-
-    const fetchBudgetItems = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/budget', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            const data = await response.json();
-            setCategories(data);
-        } catch (error) {
-            console.error('Error fetching budget items:', error);
-        }
-    };
-
-    const handleCheckboxChange = async (id, checked) => {
-        try {
-            const token = localStorage.getItem('token');
-            await fetch(`http://localhost:3000/budget/${id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ checked })
-            });
-            fetchBudgetItems();
-        } catch (error) {
-            console.error('Error updating budget item:', error);
-        }
+    const handleCheckboxChange = (id, checked) => {
+        updateBudgetItem(id, checked);
     };
 
     const totalAmount = categories.reduce((total, category) => total + category.amount, 0);

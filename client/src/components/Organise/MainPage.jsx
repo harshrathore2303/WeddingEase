@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { FaFilter } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import halls from "../../assets/data/halls.json";
@@ -8,13 +8,15 @@ import caterers from "../../assets/data/caterers.json";
 import Card from "./Card";
 
 const MainPage = () => {
-  const location = useLocation();
+  // const location = useLocation();
 
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
-  const queryParams = new URLSearchParams(location.search);
-  const tag = queryParams.get("tag");
-  // console.log(tag);
+  // const queryParams = new URLSearchParams(location.search);
+  // const tag = queryParams.get("tag");
+  const {tag} = useParams();
+  console.log(tag);
+  console.log("csnkvjbajk")
 
   useEffect(() => {
     if (tag === "halls") {
@@ -25,7 +27,7 @@ const MainPage = () => {
       setItems(caterers);
     }
   }, []);
-  // console.log(items);
+  console.log(items);
   return (
     <div className="px-4 md:px-16 lg:px-36 py-6 font-serif">
       <div className="flex justify-between">

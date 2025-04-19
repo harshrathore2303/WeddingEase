@@ -2,31 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { IoIosAddCircleOutline } from "react-icons/io";
 import BudgetModal from './BudgetModal';
 import { FaRegTrashAlt } from "react-icons/fa";
+import useBudgetStore from '../../store/useBudgetStore';
 
 const BudgetManagement = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [categories, setCategories] = useState([]);
+    const { categories, fetchBudgetItems, addBudgetItem, deleteBudgetItem, updateBudgetItem } = useBudgetStore();
 
     useEffect(() => {
         fetchBudgetItems();
-    }, []);
-
-    const fetchBudgetItems = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/budget', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            const data = await response.json();
-            setCategories(data);
-
-            window.dispatchEvent(new Event('budgetChange'));
-        } catch (error) {
-            console.error('Error fetching budget items:', error);
-        }
-    };
+    }, [fetchBudgetItems]);
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -36,56 +20,17 @@ const BudgetManagement = () => {
         setIsModalOpen(false);
     };
 
-    const onClickTrash = async (id) => {
-        try {
-            const token = localStorage.getItem('token');
-            await fetch(`http://localhost:3000/budget/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            fetchBudgetItems();
-        } catch (error) {
-            console.error('Error deleting budget item:', error);
-        }
+    const onClickTrash = (id) => {
+        deleteBudgetItem(id);
     };
 
-    const addCategory = async (newCategory) => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3000/budget', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(newCategory)
-            });
-            if (response.ok) {
-                fetchBudgetItems();
-                closeModal();
-            }
-        } catch (error) {
-            console.error('Error adding budget item:', error);
-        }
+    const addCategory = (newCategory) => {
+        addBudgetItem(newCategory);
+        closeModal();
     };
 
-    const handleCheckboxChange = async (id, checked) => {
-        try {
-            const token = localStorage.getItem('token');
-            await fetch(`http://localhost:3000/budget/${id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ checked })
-            });
-            fetchBudgetItems();
-        } catch (error) {
-            console.error('Error updating budget item:', error);
-        }
+    const handleCheckboxChange = (id, checked) => {
+        updateBudgetItem(id, checked);
     };
 
     return (

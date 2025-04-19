@@ -1,49 +1,24 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../store/UseAuthStore';
 
 const LoginPage = () => {
+  const {login, isLoggingIn, authUser, loginErr} = useAuthStore();
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: '',
   });
+
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-
-    try {
-      const response = await fetch('http://localhost:3000/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Login failed');
-      }
-
-      // Store the token in localStorage
-      localStorage.setItem('token', data.token);
-      
-      // Redirect to home page or dashboard
-      navigate('/home');
-    } catch (err) {
-      setError(err.message);
+    if (formData.email.trim() == "" || formData.password.trim() == "") {
+      alert("Complete all fields");
+      return;
     }
+    login(formData);
   };
 
   return (
@@ -70,12 +45,6 @@ const LoginPage = () => {
               <h2 className="text-2xl font-semibold">Log in to your account</h2>
             </div>
 
-            {error && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                <span className="block sm:inline">{error}</span>
-              </div>
-            )}
-
             <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="username" className="sr-only">Username or Email</label>
@@ -86,8 +55,8 @@ const LoginPage = () => {
                   required
                   className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-base-but sm:text-sm"
                   placeholder="Username or Email"
-                  value={formData.username}
-                  onChange={handleInputChange}
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
                 />
               </div>
               <div>
@@ -100,9 +69,14 @@ const LoginPage = () => {
                   className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-base-but sm:text-sm"
                   placeholder="Your password"
                   value={formData.password}
-                  onChange={handleInputChange}
+                  onChange={(e) => setFormData({...formData, password: e.target.value})}
                 />
               </div>
+              
+              {loginErr && (
+                <div className="text-red-500 text-sm mt-2">{loginErr}</div>
+              )}
+
               <div className="flex items-center justify-between">
                 <a href="#" className="text-sm text-base-but hover:text-base-butHover">
                   Forgot your password?
@@ -110,6 +84,7 @@ const LoginPage = () => {
                 <button
                   type="submit"
                   className="group relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-base-but hover:bg-base-butHover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                  onClick={handleSubmit}
                 >
                   Log in
                 </button>
@@ -125,6 +100,15 @@ const LoginPage = () => {
                   className="text-base-but font-medium hover:text-base-butHover"
                 >
                   Create one
+                </Link>
+              </p>
+              <p className="text-sm text-gray-600">
+                Ready to join out family as a admin?{' '}
+                <Link
+                  to="/admin/login"
+                  className="text-base-but font-medium hover:text-base-butHover"
+                >
+                  Go for admin
                 </Link>
               </p>
             </div>

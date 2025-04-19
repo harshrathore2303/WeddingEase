@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../store/UseAuthStore.js';
 
 const SignupPage = () => {
+  const {signup} = useAuthStore();
   const [formData, setFormData] = useState({
     username: '',
     name: '',
@@ -10,51 +12,15 @@ const SignupPage = () => {
     password: '',
     acceptedTerms: false,
   });
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const navigate = useNavigate();
-
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
-
-    if (!formData.acceptedTerms) {
-      setError('You must accept the terms and conditions');
+    if (formData.email.trim() === "" || formData.username.trim() === "" || formData.phone.trim() === "" || formData.name.trim() === ""){
+      alert("Complete all fields");
       return;
     }
-
-    try {
-      const response = await fetch('http://localhost:3000/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Signup failed');
-      }
-
-      setSuccess('Account created successfully! Redirecting to login...');
-      
-      setTimeout(() => {
-        navigate('/login');
-      }, 2000);
-    } catch (err) {
-      setError(err.message);
-    }
+    signup(formData);
+    // console.log(formData)
   };
 
   return (
@@ -80,18 +46,6 @@ const SignupPage = () => {
               <h2 className="text-2xl font-semibold">Create your account</h2>
             </div>
 
-            {error && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                <span className="block sm:inline">{error}</span>
-              </div>
-            )}
-
-            {success && (
-              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                <span className="block sm:inline">{success}</span>
-              </div>
-            )}
-
             <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="username" className="sr-only">Username</label>
@@ -103,7 +57,7 @@ const SignupPage = () => {
                   className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-base-but sm:text-sm"
                   placeholder="Your username"
                   value={formData.username}
-                  onChange={handleInputChange}
+                  onChange={(e) => setFormData({...formData, username: e.target.value})}
                 />
               </div>
               <div>
@@ -116,7 +70,7 @@ const SignupPage = () => {
                   className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-base-but sm:text-sm"
                   placeholder="Your name"
                   value={formData.name}
-                  onChange={handleInputChange}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
                 />
               </div>
               <div>
@@ -129,7 +83,7 @@ const SignupPage = () => {
                   className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-base-but sm:text-sm"
                   placeholder="Your email"
                   value={formData.email}
-                  onChange={handleInputChange}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
                 />
               </div>
               <div>
@@ -142,7 +96,7 @@ const SignupPage = () => {
                   className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-base-but sm:text-sm"
                   placeholder="Your phone number"
                   value={formData.phone}
-                  onChange={handleInputChange}
+                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
                 />
               </div>
               <div>
@@ -155,7 +109,7 @@ const SignupPage = () => {
                   className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-base-but sm:text-sm"
                   placeholder="Your password"
                   value={formData.password}
-                  onChange={handleInputChange}
+                  onChange={(e) => setFormData({...formData, password: e.target.value})}
                 />
               </div>
               <div className="flex items-start">
@@ -164,7 +118,7 @@ const SignupPage = () => {
                   name="acceptedTerms"
                   id="acceptedTerms"
                   checked={formData.acceptedTerms}
-                  onChange={handleInputChange}
+                  onChange={(e) => setFormData({...formData, acceptedTerms: !formData.acceptedTerms})}
                   className="h-4 w-4 text-teal-600 border-gray-300 rounded mt-1"
                 />
                 <label

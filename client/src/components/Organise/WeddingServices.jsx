@@ -3,9 +3,7 @@ import hallsData from "../../assets/data/halls.json";
 import photo from "../../assets/data/photographer.json";
 import caterers from "../../assets/data/caterers.json";
 import Items from "./Items";
-import { IoLocationSharp } from "react-icons/io5";
-import ShowDetails from "./ShowDetails";
-import MainPage from "./MainPage";
+import { Outlet } from "react-router-dom";
 
 export default function WeddingServices() {
 
@@ -22,6 +20,7 @@ export default function WeddingServices() {
       <Items data={photo}/>
       <Items data={caterers}/>
 
+      <Outlet/>
     </div>
   );
 }
