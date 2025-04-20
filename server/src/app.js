@@ -37,11 +37,13 @@ import guestRoutes from "./routes/guest.route.js";
 import eventRouter from "./routes/event.route.js";
 import budgetRouter from "./routes/budget.route.js";
 import checkListRouter from "./routes/checkList.route.js";
+import bookingRouter from "./routes/booking.route.js";
 
 app.use("/api", authRoutes);
 app.use("/api", guestRoutes);
 app.use("/api", eventRouter);
 app.use("/api", budgetRouter);
 app.use("/api", checkListRouter);
+app.use("/api", bookingRouter);
 
 export { app };
