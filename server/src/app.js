@@ -38,12 +38,19 @@ import eventRouter from "./routes/event.route.js";
 import budgetRouter from "./routes/budget.route.js";
 import checkListRouter from "./routes/checkList.route.js";
 import bookingRouter from "./routes/booking.route.js";
+import notificationRouter from "./routes/notification.route.js";
+import ownerRouter from "./routes/owner.route.js";
+import serviceRouter from "./routes/services.route.js";
 
+// import 
 app.use("/api", authRoutes);
 app.use("/api", guestRoutes);
 app.use("/api", eventRouter);
 app.use("/api", budgetRouter);
 app.use("/api", checkListRouter);
 app.use("/api", bookingRouter);
+app.use("/api", notificationRouter);
+app.use("/api", ownerRouter);
+app.use("/api", serviceRouter);
 
 export { app };
