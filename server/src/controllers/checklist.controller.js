@@ -32,6 +32,7 @@ const addTask = async (req, res) => {
       return res.status(400).json({ message: "Task description is required" });
 
     const newTask = await Task.create({ description, done_by });
+    // to be updated soon. logical flaw
     await Checklist.findByIdAndUpdate(
       categoryId,
       { $push: { tasks: newTask._id } },

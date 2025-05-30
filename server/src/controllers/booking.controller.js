@@ -1,4 +1,5 @@
 import { Booking } from "../models/booking.models.js";
+import { Notification } from "../models/notification.models.js";
 
 const bookService = async (req, res) => {
     try {
@@ -26,9 +27,15 @@ const bookService = async (req, res) => {
             purpose
         })
 
+        const notify = await Notification.create({
+            ownerId,
+            message: `${user.name} booked your service from ${startDate} to ${endDate}`
+        });
+
         return res.status(201).json({message: "Booking Confirmed", booking});
     } catch (error) {
         console.log("Error:::", error);
+        return res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
@@ -41,10 +48,11 @@ const getBookings = async (req, res) => {
         if (allBookings.length == 0){
             return res.status(404).json({message: "No Bookings"});
         }
-
+        
         return res.status(200).json({message: "Success", allBookings});
     } catch (error) {
-        
+        console.log("Error:::", error);
+        return res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
