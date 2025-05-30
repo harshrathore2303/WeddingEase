@@ -18,18 +18,22 @@ const serviceSchema = new Schema(
             type: String,
             required: true,
         },
-        rating: {
-            type: String,
-        },
         tag: {
             type: String,
             enum: ["hall", "photographer", "caterer", "decorator", "musician", "dj", "makeup", "mehendi", "planner", "transport", "jewellery", "attire", "gifts", "invitations", "others"],
+            required: true
         },
         imageSet: [
             {
                 type: String,
+                required: true
             }
-        ]
+        ],
+        ownerId: {
+            type: Schema.Types.ObjectId,
+            ref: "owner",
+            required: true
+        }
     },
     { timestamps: true }
 )

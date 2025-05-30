@@ -1,4 +1,11 @@
 import mongoose, { Schema } from "mongoose";
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt'
+import dotenv from "dotenv";
+
+dotenv.config({
+  path: "./.env",
+});
 
 const ownerSchema = new Schema(
   {
@@ -20,13 +27,10 @@ const ownerSchema = new Schema(
       type: String,
       required: true,
     },
-    serviceType: {
-      type: String,
-      required: true,
-    },
     serviceDetail: {
       type: Schema.Types.ObjectId,
       ref: "Service",
+      default: null,
     },
   },
   { timestamps: true }
@@ -49,10 +53,9 @@ ownerSchema.methods.generateAccessToken = function () {
     {
       _id: this._id,
       email: this.email,
-      username: this.username,
-      fullname: this.fullname,
+      name: this.name,
     },
-    process.env.ACCESS_TOKEN_SECRET,
+    process.env.ACCESS_TOKEN_OWNER,
     {
       expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
     }
