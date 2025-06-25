@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import Footer from "./components/Footer";
+import Footer from "./components/Footer/Footer";
 // import HallsPage from "./components/Halls/HallsPage";
 import Home from "./components/Home/Home";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/NavBar/NavBar";
 import PlanningTools from "./components/PlanningTools";
 import { Routes, Route, Navigate, Router } from "react-router-dom";
 import Notfound from "./components/Notfound";
@@ -11,14 +11,13 @@ import SignupPage from "./components/Login/SignupPage";
 import WeddingServices from "./components/Organise/WeddingServices";
 import MainPage from "./components/Organise/MainPage";
 import ShowDetails from "./components/Organise/ShowDetails";
-import Login from "./components/Admin/Authentication/AdminLogin";
 import { useAuthStore } from "./store/UseAuthStore";
 import { LuLoader } from "react-icons/lu";
 import ConfirmPage from "./components/Booking/ConfirmPage";
-import AdminLogin from "./components/Admin/Authentication/AdminLogin";
+import Dashboard from "./components/Admin/Dashboard";
 
 function App() {
-  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth, isAdmin } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
@@ -36,39 +35,34 @@ function App() {
     <div className="bg-[#ffffff] min-h-screen flex flex-col">
       <NavBar />
       <Routes>
+        <Route
+          path="/admin/dashboard"
+          element={isAdmin ? <Dashboard /> : <Navigate to="/" />}
+        />
+        
         <Route path="*" element={<Notfound />} />
-        <Route path="/" element={<Navigate to="/home" />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/organize" element={<WeddingServices />}/>
-        <Route path="/organize/mainpage/:tag" element={<MainPage />} />
-        <Route path="/organize/mainpage/:tag/:id" element={<ShowDetails/>}/>
-        <Route path="/planning-tools" element={authUser ? <PlanningTools /> : <Navigate to="/login"/>} />
-        <Route path="/login" element={!authUser ? <LoginPage />:<Navigate to="/" />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/confirmed" element={<ConfirmPage/>}/>
-        <Route path="/admin/login" element={<AdminLogin/>}/>
+        <Route path="/" element={!isAdmin ? <Navigate to="/home" /> : <Dashboard />} />
+        <Route path="/home" element={!isAdmin ? <Home /> : <Dashboard />} />
+        <Route path="/organize" element={!isAdmin ? <WeddingServices /> : <Dashboard />} />
+        <Route path="/organize/mainpage/:tag" element={!isAdmin ? <MainPage /> : <Dashboard />} />
+        <Route path="/organize/mainpage/:tag/:id" element={!isAdmin ? <ShowDetails /> : <Dashboard />} />
+        <Route
+          path="/planning-tools"
+          element={authUser ? !isAdmin && <PlanningTools /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/login"
+          element={!authUser ? <LoginPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/signup"
+          element={!authUser ? <SignupPage /> : <Navigate to="/" />}
+        />
+        <Route path="/confirmed" element={<ConfirmPage />} />
       </Routes>
-      <Footer />
+      {!isAdmin && <Footer />}
     </div>
   );
 }
 
 export default App;
-
-// {
-//   <NavBar />
-//       {/* <Home /> */}
-//       <Routes>
-//         <Route path="/mainpage" element={<MainPage/>}/>
-//         <Route path="/mainpage/showdetails" element={<ShowDetails/>}/>
-//         <Route path="/" element={<Navigate to="/home" />} />
-//         <Route path="/home" element={<Home />} />
-//         <Route path="/planning-tools" element={<PlanningTools />} />
-//         <Route path="/organize" element={<WeddingServices />} />
-//         <Route path="/login" element={<LoginPage />} />
-//         <Route path="/signup" element={<SignupPage />} />
-//         <Route path="*" element={<Notfound />} />
-//         <Route path="/admin/login" element={<Login/>}/>
-//       </Routes>
-//       {/* <Footer /> */}
-// }

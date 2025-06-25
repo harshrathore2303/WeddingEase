@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { IoLocationSharp } from "react-icons/io5";
-import Slider from "../Slider";
+import Slider from "../Slider/Slider";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import halls from "../../assets/data/halls.json";
 import photographer from "../../assets/data/photographer.json";
 import caterers from "../../assets/data/caterers.json";
-import Loading from "../Loading";
+import Loading from "../Loading/Loading";
 import { FaBookmark } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
 import Calendar from "react-calendar";

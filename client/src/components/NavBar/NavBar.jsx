@@ -9,7 +9,7 @@ import {
 import { IoPeople } from "react-icons/io5";
 import { HiDotsVertical } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
-import { useAuthStore } from "../store/UseAuthStore";
+import { useAuthStore } from "../../store/UseAuthStore";
 
 export default function NavBar() {
   const { authUser, logout } = useAuthStore();
@@ -85,22 +85,27 @@ export default function NavBar() {
                         isActive ? "bg-base-but text-white" : "text-black"
                       }`
                     }
-                    onClick={() => {setToggleProfile(false); logout()}}
+                    onClick={() => {
+                      setToggleProfile(false);
+                      logout();
+                    }}
                   >
                     Log out
                   </NavLink>
                 ) : (
-                  <NavLink
-                    to="/login"
-                    className={({ isActive }) =>
-                      `block px-4 py-2 ${
-                        isActive ? "bg-base-but text-white" : "text-black"
-                      }`
-                    }
-                    onClick={() => setToggleProfile(false)}
-                  >
-                    Log in
-                  </NavLink>
+                  <div>
+                    <NavLink
+                      to="/login"
+                      className={({ isActive }) =>
+                        `block px-4 py-2 ${
+                          isActive ? "bg-base-but text-white" : "text-black"
+                        }`
+                      }
+                      onClick={() => setToggleProfile(false)}
+                    >
+                      Log in
+                    </NavLink>
+                  </div>
                 )}
               </div>
             )}
@@ -158,22 +163,27 @@ export default function NavBar() {
                         isActive ? "bg-base-but text-white" : "text-black"
                       }`
                     }
-                    onClick={() => {setToggleProfile(false); logout()}}
+                    onClick={() => {
+                      setToggleProfile(false);
+                      logout();
+                    }}
                   >
                     Log out
                   </NavLink>
                 ) : (
-                  <NavLink
-                    to="/login"
-                    className={({ isActive }) =>
-                      `block px-4 py-2 ${
-                        isActive ? "bg-base-but text-white" : "text-black"
-                      }`
-                    }
-                    onClick={() => setToggleProfile(false)}
-                  >
-                    Log in
-                  </NavLink>
+                  <div>
+                    <NavLink
+                      to="/login"
+                      className={({ isActive }) =>
+                        `block px-4 py-2 ${
+                          isActive ? "bg-base-but text-white" : "text-black"
+                        }`
+                      }
+                      onClick={() => setToggleProfile(false)}
+                    >
+                      Log in
+                    </NavLink>
+                  </div>
                 )}
               </div>
             )}

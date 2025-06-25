@@ -10,9 +10,9 @@ const bookingSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "User"
         },
-        ownerId: {
+        adminId: {
             type: Schema.Types.ObjectId,
-            ref: "Owner"
+            ref: "User"
         }, 
         startDate: {
             type: Date

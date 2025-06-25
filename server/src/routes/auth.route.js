@@ -10,10 +10,11 @@ import { verifyJWT } from "../middlewares/verifyJWT.js";
 
 const router = Router();
 
-router.post("/user/signup", signup);
-router.post("/user/login", login);
-router.post("/user/logout", logout);
-router.get("/user/checkAuth", verifyJWT, checkAuth);
-router.get("/user/getUsers", getUsers);
+router.post("/signup", signup);
+router.post("/login", login);
+router.post("/logout", logout);
+
+router.get("/checkAuth", verifyJWT, checkAuth);
+router.get("/getUsers", verifyJWT, getUsers);
 
 export default router;

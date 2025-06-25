@@ -1,5 +1,5 @@
 import React from "react";
-import Slider from '../Slider'
+import Slider from '../Slider/Slider'
 import CustomButton from "./CustomButton";
 import { Card } from "./Card";
 import slides from "../../assets/data/homeslider.json"

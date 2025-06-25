@@ -1,32 +1,44 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../store/UseAuthStore.js';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/UseAuthStore.js";
+import { LuLoader } from "react-icons/lu";
 
 const SignupPage = () => {
-  const {signup} = useAuthStore();
+  const { signup, signUpErr, isSigningUp, success } = useAuthStore();
   const [formData, setFormData] = useState({
-    username: '',
-    name: '',
-    email: '',
-    phone: '',
-    password: '',
+    username: "",
+    fullname: "",
+    email: "",
+    phone: "",
+    password: "",
     acceptedTerms: false,
+    role: "user",
   });
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (success) {
+      navigate("/login");
+    }
+  }, [success, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.email.trim() === "" || formData.username.trim() === "" || formData.phone.trim() === "" || formData.name.trim() === ""){
+    if (
+      formData.email.trim() === "" ||
+      formData.username.trim() === "" ||
+      formData.phone.trim() === "" ||
+      formData.fullname.trim() === ""
+    ) {
       alert("Complete all fields");
       return;
     }
     signup(formData);
-    // console.log(formData)
   };
 
   return (
     <div className="flex items-center justify-center w-[60%] h-full m-auto p-4 space-y-4">
       <div className="flex w-full max-w-7xl border-gray-500 border-2">
-
         <div className="hidden md:flex md:w-1/2 relative">
           <img
             src="https://plus.unsplash.com/premium_photo-1674197235635-3cf3f67a3470?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -48,7 +60,9 @@ const SignupPage = () => {
 
             <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="username" className="sr-only">Username</label>
+                <label htmlFor="username" className="sr-only">
+                  Username
+                </label>
                 <input
                   id="username"
                   name="username"
@@ -57,11 +71,15 @@ const SignupPage = () => {
                   className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-base-but sm:text-sm"
                   placeholder="Your username"
                   value={formData.username}
-                  onChange={(e) => setFormData({...formData, username: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, username: e.target.value })
+                  }
                 />
               </div>
               <div>
-                <label htmlFor="name" className="sr-only">Name</label>
+                <label htmlFor="name" className="sr-only">
+                  Name
+                </label>
                 <input
                   id="name"
                   name="name"
@@ -69,12 +87,16 @@ const SignupPage = () => {
                   required
                   className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-base-but sm:text-sm"
                   placeholder="Your name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  value={formData.fullname}
+                  onChange={(e) =>
+                    setFormData({ ...formData, fullname: e.target.value })
+                  }
                 />
               </div>
               <div>
-                <label htmlFor="email" className="sr-only">Email</label>
+                <label htmlFor="email" className="sr-only">
+                  Email
+                </label>
                 <input
                   id="email"
                   name="email"
@@ -83,11 +105,15 @@ const SignupPage = () => {
                   className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-base-but sm:text-sm"
                   placeholder="Your email"
                   value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                 />
               </div>
               <div>
-                <label htmlFor="phone" className="sr-only">Phone</label>
+                <label htmlFor="phone" className="sr-only">
+                  Phone
+                </label>
                 <input
                   id="phone"
                   name="phone"
@@ -96,11 +122,15 @@ const SignupPage = () => {
                   className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-base-but sm:text-sm"
                   placeholder="Your phone number"
                   value={formData.phone}
-                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
                 />
               </div>
               <div>
-                <label htmlFor="password" className="sr-only">Password</label>
+                <label htmlFor="password" className="sr-only">
+                  Password
+                </label>
                 <input
                   id="password"
                   name="password"
@@ -109,45 +139,94 @@ const SignupPage = () => {
                   className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-base-but sm:text-sm"
                   placeholder="Your password"
                   value={formData.password}
-                  onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                 />
               </div>
+
+              <div className="space-x-5 flex ">
+                <div>
+                  <input
+                    type="radio"
+                    id="user"
+                    value={formData.role}
+                    checked={formData.role === "user"}
+                    onChange={() => setFormData({ ...formData, role: "user" })}
+                  />
+                  <label htmlFor="user">User</label>
+                </div>
+
+                <div>
+                  <input
+                    type="radio"
+                    id="admin"
+                    value={formData.role}
+                    checked={formData.role === "admin"}
+                    onChange={() => setFormData({ ...formData, role: "admin" })}
+                  />
+                  <label htmlFor="admin">Admin</label>
+                </div>
+              </div>
+
               <div className="flex items-start">
                 <input
                   type="checkbox"
                   name="acceptedTerms"
                   id="acceptedTerms"
                   checked={formData.acceptedTerms}
-                  onChange={(e) => setFormData({...formData, acceptedTerms: !formData.acceptedTerms})}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      acceptedTerms: !formData.acceptedTerms,
+                    })
+                  }
                   className="h-4 w-4 text-teal-600 border-gray-300 rounded mt-1"
                 />
                 <label
                   htmlFor="acceptedTerms"
                   className="ml-2 text-sm text-gray-700"
                 >
-                  By signing up, I agree to the{' '}
-                  <a href="#" className="text-base-but hover:text-base-butHover ">
+                  By signing up, I agree to the{" "}
+                  <a
+                    href="#"
+                    className="text-base-but hover:text-base-butHover "
+                  >
                     Privacy Policy
-                  </a>{' '}
-                  and{' '}
-                  <a href="#" className="text-base-but hover:text-base-butHover ">
+                  </a>{" "}
+                  and{" "}
+                  <a
+                    href="#"
+                    className="text-base-but hover:text-base-butHover "
+                  >
                     Terms of Use
                   </a>
                 </label>
               </div>
+
+              {signUpErr && (
+                <div className="text-red-500 text-sm mt-2">{signUpErr}</div>
+              )}
               <div className="flex items-center justify-between">
                 <button
                   type="submit"
                   className="group relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-base-but hover:bg-base-butHover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
                 >
-                  Sign up
+                  {isSigningUp ? (
+                    <>
+                      <LuLoader className="h-5 w-5 animate-spin" />
+                      Loading...
+                    </>
+                  ) : (
+                    "Sign in"
+                  )}
                 </button>
               </div>
             </form>
 
             <div className="mt-4 text-center">
               <p className="text-sm text-gray-600">
-                Already have an account?{' '}
+                Already have an account?{" "}
                 <Link
                   to="/login"
                   className="text-base-but font-medium hover:text-base-butHover"
@@ -164,4 +243,3 @@ const SignupPage = () => {
 };
 
 export default SignupPage;
-

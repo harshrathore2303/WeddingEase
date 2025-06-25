@@ -1,11 +1,12 @@
 import { Router } from "express";
 import { upload } from "../middlewares/multer.js";
-import { verifyOwnerJWT } from "../middlewares/verifyOwnerJWT.js";
 import { createService, getById, getAllServices, getByFilter } from "../controllers/service.controller.js";
+import { verifyJWT } from "../middlewares/verifyJWT.js";
+import { authorizeRoles } from "../middlewares/authorizeRole.js";
 
 const router = Router();
 
-router.post("/services", verifyOwnerJWT, upload.fields([
+router.post("/services", verifyJWT, authorizeRoles("admin"),  upload.fields([
     {
       name: "dp",
       maxCount: 1,

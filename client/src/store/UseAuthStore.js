@@ -10,13 +10,16 @@ const useAuthStore = create((set) => ({
   loginErr: "",
   signUpErr: "",
 
+
+  isAdmin: false,
+
   checkAuth: async () => {
     try {
-      const res = await axiosInstance.get("/user/checkAuth");
+      const res = await axiosInstance.get("/checkAuth");
       console.log(res);
-      set({ authUser: res.data });
+      set({ authUser: res.data, isAdmin: res.data.role === "admin" });
     } catch (error) {
-      set({ authUser: null });
+      set({ authUser: null, isAdmin: false });
       console.log("error::", error);
     } finally {
       set({ isCheckingAuth: false });
@@ -26,10 +29,11 @@ const useAuthStore = create((set) => ({
   signup: async (data) => {
     set({ isSigningUp: true });
     try {
-      const res = await axiosInstance.post("/user/signup", data);
-      set({ authUser: res.data });
+      const res = await axiosInstance.post("/signup", data);
+      // console.log(res)
+      set({ authUser: res.data, isAdmin: res.data.role === "admin" });
     } catch (error) {
-        set({ signUpErr: error?.response?.data?.message })
+      set({ signUpErr: error?.response?.data?.message });
       console.log("error::", error);
     } finally {
       set({ isSigningUp: false });
@@ -39,9 +43,9 @@ const useAuthStore = create((set) => ({
   login: async (data) => {
     set({ isLoggingIn: true });
     try {
-      const res = await axiosInstance.post("/user/login", data);
-      console.log(res.data);
-      set({ authUser: res.data });
+      const res = await axiosInstance.post("/login", data);
+      console.log(res.data.role);
+      set({ authUser: res.data, isAdmin: res.data.role === "admin" });
     } catch (error) {
       set({ loginErr: error?.response?.data?.message });
       console.log("error::", error);
@@ -52,8 +56,8 @@ const useAuthStore = create((set) => ({
 
   logout: async () => {
     try {
-      await axiosInstance.post("/user/logout");
-      set({ authUser: null });
+      await axiosInstance.post("/logout");
+      set({ authUser: null, isAdmin: false });
     } catch (error) {
       console.log("error::", error);
     }

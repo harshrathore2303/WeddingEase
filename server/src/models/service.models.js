@@ -29,9 +29,9 @@ const serviceSchema = new Schema(
                 required: true
             }
         ],
-        ownerId: {
+        adminId: {
             type: Schema.Types.ObjectId,
-            ref: "owner",
+            ref: "User",
             required: true
         }
     },

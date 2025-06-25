@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../store/UseAuthStore';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/UseAuthStore";
+import { LuLoader } from "react-icons/lu";
 
 const LoginPage = () => {
-  const {login, isLoggingIn, authUser, loginErr} = useAuthStore();
+  const { login, isLoggingIn, authUser, loginErr } = useAuthStore();
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
+    role: "user",
   });
 
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -22,7 +23,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center p-4 shadow-md w-[60%] h-full m-auto">
+    <div className="flex items-center justify-center p-4 shadow-md w-[60%] h-full m-auto font-serif">
       <div className="flex w-full max-w-7xl border-gray-500 border-2">
         {/* Left Side - Hero Image */}
         <div className="hidden md:flex md:w-1/2 relative">
@@ -47,20 +48,26 @@ const LoginPage = () => {
 
             <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="username" className="sr-only">Username or Email</label>
+                <label htmlFor="username" className="sr-only">
+                  Username or Email
+                </label>
                 <input
                   id="username"
                   name="username"
                   type="text"
                   required
                   className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-base-but sm:text-sm"
-                  placeholder="Username or Email"
+                  placeholder="Email"
                   value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                 />
               </div>
               <div>
-                <label htmlFor="password" className="sr-only">Password</label>
+                <label htmlFor="password" className="sr-only">
+                  Password
+                </label>
                 <input
                   id="password"
                   name="password"
@@ -69,16 +76,43 @@ const LoginPage = () => {
                   className="appearance-none rounded-md block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-teal-500 focus:border-base-but sm:text-sm"
                   placeholder="Your password"
                   value={formData.password}
-                  onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                 />
               </div>
-              
+              <div className="space-x-5 flex ">
+                <div>
+                  <input
+                    type="radio"
+                    id="user"
+                    value={formData.role}
+                    checked={formData.role === "user"}
+                    onChange={() => setFormData({ ...formData, role: "user" })}
+                  />
+                  <label htmlFor="user">User</label>
+                </div>
+
+                <div>
+                  <input
+                    type="radio"
+                    id="admin"
+                    value={formData.role}
+                    checked={formData.role === "admin"}
+                    onChange={() => setFormData({ ...formData, role: "admin" })}
+                  />
+                  <label htmlFor="admin">Admin</label>
+                </div>
+              </div>
               {loginErr && (
                 <div className="text-red-500 text-sm mt-2">{loginErr}</div>
               )}
 
               <div className="flex items-center justify-between">
-                <a href="#" className="text-sm text-base-but hover:text-base-butHover">
+                <a
+                  href="#"
+                  className="text-sm text-base-but hover:text-base-butHover"
+                >
                   Forgot your password?
                 </a>
                 <button
@@ -86,7 +120,14 @@ const LoginPage = () => {
                   className="group relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-base-but hover:bg-base-butHover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
                   onClick={handleSubmit}
                 >
-                  Log in
+                  {isLoggingIn ? (
+                    <>
+                      <LuLoader className="h-5 w-5 animate-spin" />
+                      Loading...
+                    </>
+                  ) : (
+                    "Login"
+                  )}
                 </button>
               </div>
             </form>
@@ -94,21 +135,12 @@ const LoginPage = () => {
             {/* Add Create Account Link */}
             <div className="mt-4 text-center">
               <p className="text-sm text-gray-600">
-                Don't have an account?{' '}
+                Don't have an account?{" "}
                 <Link
                   to="/signup"
                   className="text-base-but font-medium hover:text-base-butHover"
                 >
                   Create one
-                </Link>
-              </p>
-              <p className="text-sm text-gray-600">
-                Ready to join out family as a admin?{' '}
-                <Link
-                  to="/admin/login"
-                  className="text-base-but font-medium hover:text-base-butHover"
-                >
-                  Go for admin
                 </Link>
               </p>
             </div>
@@ -120,4 +152,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
