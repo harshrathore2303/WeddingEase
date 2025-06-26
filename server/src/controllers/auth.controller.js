@@ -72,22 +72,22 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { email, password, role } = req.body;
     console.log(req.body);
-    if (!username && !email) {
+    if (!email) {
       return res
         .status(400)
         .json({ message: "valid credentials are required" });
     }
 
     const user = await User.findOne({
-      $or: [{ username }, { email }],
+      $or: [{ email }],
     });
 
-    if (!user) {
+    if (!user || user.role !== role) {
       return res
         .status(400)
-        .json({ message: "Username or email doesn't exist" });
+        .json({ message: "email doesn't exist" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);

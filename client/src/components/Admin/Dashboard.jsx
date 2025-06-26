@@ -1,9 +1,25 @@
-import React from 'react'
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import AdminNavBar from "./AdminNavBar";
+import Sidebar from "./SideBar";
+import Notifications from "./Notifications";
+import Profile from "./Profile";
+import Services from "./Services";
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
-  )
-}
+    <div>
+      {/* <AdminNavBar /> */}
+      <Sidebar />
+      <div className="flex-1 p-4">
+        <Routes>
+          <Route path="services" element={<Services />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="notifications" element={<Notifications />} />
+        </Routes>
+      </div>
+    </div>
+  );
+};
 
-export default Dashboard
+export default Dashboard;

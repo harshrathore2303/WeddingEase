@@ -4,7 +4,7 @@ import Footer from "./components/Footer/Footer";
 import Home from "./components/Home/Home";
 import NavBar from "./components/NavBar/NavBar";
 import PlanningTools from "./components/PlanningTools";
-import { Routes, Route, Navigate, Router } from "react-router-dom";
+import { Routes, Route, Navigate, Router, useNavigate } from "react-router-dom";
 import Notfound from "./components/Notfound";
 import LoginPage from "./components/Login/LoginPage";
 import SignupPage from "./components/Login/SignupPage";
@@ -33,23 +33,18 @@ function App() {
 
   return (
     <div className="bg-[#ffffff] min-h-screen flex flex-col">
-      <NavBar />
+      {!isAdmin && <NavBar />}
       <Routes>
-        <Route
-          path="/admin/dashboard"
-          element={isAdmin ? <Dashboard /> : <Navigate to="/" />}
-        />
-        
-        <Route path="*" element={<Notfound />} />
-        <Route path="/" element={!isAdmin ? <Navigate to="/home" /> : <Dashboard />} />
-        <Route path="/home" element={!isAdmin ? <Home /> : <Dashboard />} />
-        <Route path="/organize" element={!isAdmin ? <WeddingServices /> : <Dashboard />} />
-        <Route path="/organize/mainpage/:tag" element={!isAdmin ? <MainPage /> : <Dashboard />} />
-        <Route path="/organize/mainpage/:tag/:id" element={!isAdmin ? <ShowDetails /> : <Dashboard />} />
-        <Route
-          path="/planning-tools"
-          element={authUser ? !isAdmin && <PlanningTools /> : <Navigate to="/login" />}
-        />
+        {isAdmin && (
+          <>
+            <Route
+              path="/"
+              element={<Navigate to="/admin/dashboard/services" />}
+            />
+            <Route path="/admin/dashboard/*" element={<Dashboard />} />
+          </>
+        )}
+
         <Route
           path="/login"
           element={!authUser ? <LoginPage /> : <Navigate to="/" />}
@@ -58,8 +53,26 @@ function App() {
           path="/signup"
           element={!authUser ? <SignupPage /> : <Navigate to="/" />}
         />
-        <Route path="/confirmed" element={<ConfirmPage />} />
+        {!isAdmin && (
+          <>
+            <Route path="*" element={<Notfound />} />
+            <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/organize" element={<WeddingServices />} />
+            <Route path="/organize/mainpage/:tag" element={<MainPage />} />
+            <Route
+              path="/organize/mainpage/:tag/:id"
+              element={<ShowDetails />}
+            />
+            <Route
+              path="/planning-tools"
+              element={authUser ? <PlanningTools /> : <Navigate to="/login" />}
+            />
+            <Route path="/confirmed" element={<ConfirmPage />} />
+          </>
+        )}
       </Routes>
+
       {!isAdmin && <Footer />}
     </div>
   );
