@@ -11,7 +11,7 @@ const Dashboard = () => {
     <div>
       {/* <AdminNavBar /> */}
       <Sidebar />
-      <div className="flex-1 p-4">
+      <div className="flex-1 w-screen">
         <Routes>
           <Route path="services" element={<Services />} />
           <Route path="profile" element={<Profile />} />

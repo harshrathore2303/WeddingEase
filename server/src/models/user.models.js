@@ -38,10 +38,16 @@ const userSchema = new Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+    services: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Service",
+      },
+    ],
     guestList: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Guest"
+        ref: "Guest",
       },
     ],
     events: [

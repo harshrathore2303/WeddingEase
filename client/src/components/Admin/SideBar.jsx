@@ -18,7 +18,7 @@ const Sidebar = () => {
       {/* Sidebar */}
       <div
         className="bg-base-but text-white 
-                    fixed h-screen transition-all 
+                    fixed h-full transition-all 
                     duration-300 z-10 md:w-64 w-32"
       >
         {/* Sidebar content */}

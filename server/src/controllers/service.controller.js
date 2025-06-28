@@ -1,29 +1,30 @@
 import { Service } from "../models/service.models.js";
+import { User } from "../models/user.models.js";
 import { uploadCloudinary } from "../utils/cloudinary.js";
 import fs from "fs";
 
 const createService = async (req, res) => {
   try {
     const { title, price, location, tag } = req.body;
-
+    console.log("Oye mein yaha hoon")
     if ([title, price, location, tag].some((field) => field?.trim() === "")) {
       return res.status(404).json({ message: "all fields are required" });
     }
-    console.log("Yaha tk aaye 1")
+    console.log("Yaha tk aaye 1");
     const dpLocalPath = req.files?.dp[0]?.path;
-    
+
     const imageSetFiles = req.files?.imageSet || [];
-    console.log("Yaha tk aaye 2")
-    
+    console.log("Yaha tk aaye 2");
+
     if (!dpLocalPath) {
-      throw new ApiError(400, "dp file is required");
+      return res.status(400).json({ message: "dp file is required" });
     }
-    
+
     const dp = await uploadCloudinary(dpLocalPath);
     //this will delete temp dp file that is stored in public/temp
     fs.unlinkSync(dpLocalPath);
-    console.log("Yaha tk aaye 3")
-    
+    console.log("Yaha tk aaye 3");
+
     // Promise.all() runs all uploads in parallel and waits until all are done.
     const uploadResults = await Promise.all(
       imageSetFiles.map(async (file) => {
@@ -32,8 +33,8 @@ const createService = async (req, res) => {
         return result;
       })
     );
-    
-    console.log("Yaha tk aaye 4")
+
+    console.log("Yaha tk aaye 4");
     const imageSet = uploadResults
       .filter((res) => res && res.url)
       .map((res) => res.url);
@@ -41,7 +42,7 @@ const createService = async (req, res) => {
     if (!dp) {
       throw new ApiError(400, "dp file is required");
     }
-    
+
     const service = await Service.create({
       title,
       price,
@@ -49,7 +50,7 @@ const createService = async (req, res) => {
       dp: dp.url,
       imageSet: imageSet,
       tag,
-      ownerId: req.owner._id,
+      adminId: req.user._id,
     });
 
     return res.status(201).json({ message: "Service created successfully" });
@@ -75,7 +76,7 @@ const getAllServices = async (req, res) => {
 const getById = async (req, res) => {
   try {
     const id = req.params.id;
-    const service = await Service.findOne(id);
+    const service = await Service.findById(id);
     if (!service) {
       return res.status(404).json({ message: "Not found" });
     }
@@ -101,8 +102,10 @@ const getByFilter = async (req, res) => {
 
     const services = await Service.find(filter);
 
-    if (!services) {
-      return res.status(200).json({ message: "Not Availabe" });
+    if (services.length === 0) {
+      return res
+        .status(200)
+        .json({ message: "No services available", data: [] });
     }
     return res
       .status(200)
@@ -113,4 +116,25 @@ const getByFilter = async (req, res) => {
   }
 };
 
-export { createService, getAllServices, getById, getByFilter };
+const getServicesByAdmin = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const data = await Service.find({ adminId: req.user._id });;
+    console.log(data)
+
+    if (!data) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({
+      message: "Services fetched successfully",
+      data: data.services,
+    });
+  } catch (error) {
+    console.log("Error:::", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+export { createService, getAllServices, getById, getByFilter, getServicesByAdmin };

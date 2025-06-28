@@ -20,7 +20,7 @@ const serviceSchema = new Schema(
         },
         tag: {
             type: String,
-            enum: ["hall", "photographer", "caterer", "decorator", "musician", "dj", "makeup", "mehendi", "planner", "transport", "jewellery", "attire", "gifts", "invitations", "others"],
+            enum: ["Hall", "Photographer", "Caterer", "Decorator", "Musician", "Dj", "Makeup", "Mehendi", "Planner", "Transport", "Jewellery", "Attire", "Gifts", "Invitations", "Others"],
             required: true
         },
         imageSet: [

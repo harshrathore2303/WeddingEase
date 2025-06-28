@@ -11,8 +11,6 @@ const LoginPage = () => {
     role: "user",
   });
 
-  const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.email.trim() == "" || formData.password.trim() == "") {
