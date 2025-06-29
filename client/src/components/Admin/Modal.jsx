@@ -86,23 +86,27 @@ const Modal = ({ setOpen, editService }) => {
   }, [editService]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white w-full max-w-md rounded-lg shadow-lg p-6 relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 font-serif">
+      <div className="bg-[#fdfcf4] w-full max-w-md rounded-xl shadow-xl border border-[#dcd6a3] p-6 relative">
+        {/* Close button */}
         <button
-          className="absolute top-2 right-3 text-xl font-bold text-gray-700 hover:text-red-500"
+          className="absolute top-2 right-3 text-xl font-bold text-[#3e3c1b] hover:text-red-500 transition"
           onClick={() => setOpen(false)}
         >
           &times;
         </button>
 
-        <h2 className="text-lg font-semibold mb-4">
+        {/* Header */}
+        <h2 className="text-2xl font-bold text-center text-[#3e3c1b] mb-6">
           {editService ? "Edit Service" : "Create New Service"}
         </h2>
-        <form className="space-y-4">
+
+        {/* Form */}
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Title"
-            className="w-full p-2 border border-gray-500 rounded"
+            className="w-full px-4 py-2 border border-[#ccc] rounded focus:ring-2 focus:ring-[#797531] outline-none"
             name="title"
             value={formData.title}
             onChange={(e) =>
@@ -110,10 +114,11 @@ const Modal = ({ setOpen, editService }) => {
             }
             required
           />
+
           <input
             type="text"
             placeholder="Location"
-            className="w-full p-2 border border-gray-500 rounded"
+            className="w-full px-4 py-2 border border-[#ccc] rounded focus:ring-2 focus:ring-[#797531] outline-none"
             name="location"
             value={formData.location}
             onChange={(e) =>
@@ -121,11 +126,12 @@ const Modal = ({ setOpen, editService }) => {
             }
             required
           />
+
           <input
             type="number"
             min={5}
             placeholder="Price"
-            className="w-full p-2 border border-gray-500 rounded"
+            className="w-full px-4 py-2 border border-[#ccc] rounded focus:ring-2 focus:ring-[#797531] outline-none"
             name="price"
             value={formData.price}
             onChange={(e) =>
@@ -134,13 +140,14 @@ const Modal = ({ setOpen, editService }) => {
             required
           />
 
+          {/* Tag Select */}
           <select
-            className="w-full p-2 border rounded bg-base-but"
+            className="w-full px-4 py-2 border border-[#ccc] bg-white rounded focus:ring-2 focus:ring-[#797531] outline-none"
             value={formData.tag}
             onChange={(e) => setFormData({ ...formData, tag: e.target.value })}
             required
           >
-            <option value="" className="border border-black">
+            <option value="" disabled>
               Select Tag
             </option>
             {data.map((item, idx) => (
@@ -150,53 +157,63 @@ const Modal = ({ setOpen, editService }) => {
             ))}
           </select>
 
-          <div className="">
-            <label htmlFor="dp" className="font-semibold">
-              Display Picture:{" "}
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              className="w-full"
-              id="dp"
-              onChange={(e) =>
-                setFormData({ ...formData, dp: e.target.files[0] })
-              }
-              required={!editService}
-              disabled={editService}
-            />
+          {/* File Inputs */}
+          <div className="space-y-2">
+            <div>
+              <label
+                htmlFor="dp"
+                className="text-[#3e3c1b] font-medium block mb-1"
+              >
+                Display Picture
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                className="w-full text-sm"
+                id="dp"
+                onChange={(e) =>
+                  setFormData({ ...formData, dp: e.target.files[0] })
+                }
+                required={!editService}
+                disabled={editService}
+              />
+            </div>
 
-            <label htmlFor="sp" className="font-semibold">
-              Sample Picture:{" "}
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              className="w-full"
-              id="sp"
-              onChange={(e) =>
-                setFormData({ ...formData, imageSet: e.target.files })
-              }
-              required={!editService}
-              disabled={editService}
-            />
+            <div>
+              <label
+                htmlFor="sp"
+                className="text-[#3e3c1b] font-medium block mb-1"
+              >
+                Sample Images (Max 5)
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                className="w-full text-sm"
+                id="sp"
+                onChange={(e) =>
+                  setFormData({ ...formData, imageSet: e.target.files })
+                }
+                required={!editService}
+                disabled={editService}
+              />
+            </div>
           </div>
-          {error && (
-            <p className="text-red-600 text-sm">
-              {error}
-            </p>
-          )}
+
+          {/* Error Message */}
+          {error && <p className="text-red-600 text-sm mt-1">{error}</p>}
+
+          {/* Submit Button */}
           <button
             type="submit"
-            className="bg-base-but hover:bg-base-butHover  text-white px-4 py-2 rounded"
-            onClick={handleSubmit}
+            className="w-full bg-[#3e3c1b] hover:bg-[#2e2c15] text-white py-2 rounded-lg text-lg font-medium transition flex justify-center items-center gap-2"
           >
             {isLoading ? (
-              <div className="flex items-center justify-center gap-2">
-                <LuLoader className="h-5 w-5 animate-spin" />
+              <>
+                <LuLoader className="animate-spin h-5 w-5" />
                 Loading...
-              </div>
+              </>
             ) : (
               "Submit"
             )}

@@ -5,62 +5,75 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import useBudgetStore from '../../store/useBudgetStore';
 
 const BudgetManagement = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const { categories, fetchBudgetItems, addBudgetItem, deleteBudgetItem, updateBudgetItem } = useBudgetStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const {
+    categories,
+    fetchBudgetItems,
+    addBudgetItem,
+    deleteBudgetItem,
+    updateBudgetItem
+  } = useBudgetStore();
 
-    useEffect(() => {
-        fetchBudgetItems();
-    }, [fetchBudgetItems]);
+  useEffect(() => {
+    fetchBudgetItems();
+  }, [fetchBudgetItems]);
 
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
+  const onClickTrash = (id) => {
+    deleteBudgetItem(id);
+  };
 
-    const onClickTrash = (id) => {
-        deleteBudgetItem(id);
-    };
+  const addCategory = (newCategory) => {
+    addBudgetItem(newCategory);
+    closeModal();
+  };
 
-    const addCategory = (newCategory) => {
-        addBudgetItem(newCategory);
-        closeModal();
-    };
+  return (
+    <div className="bg-[#fdfcf4] p-4 rounded-xl shadow-md border border-gray-200 font-serif w-full max-w-sm mx-auto">
+      {/* Add Button */}
+      <button
+        className="w-full flex items-center justify-center gap-2 bg-[#DADAE6] text-[#AD563B] font-semibold py-2 rounded-md hover:scale-105 transition-transform duration-200"
+        onClick={openModal}
+      >
+        <IoIosAddCircleOutline size={22} />
+        Add Category
+      </button>
 
-    const handleCheckboxChange = (id, checked) => {
-        updateBudgetItem(id, checked);
-    };
+      {isModalOpen && <BudgetModal closeModal={closeModal} addCategory={addCategory} />}
 
-    return (
-        <div className=''>
-            <div className='w-[350px] bg-[#F4F4FF] rounded-lg shadow-lg border-gray-300 border'>
-                <div className='flex  bg-[#DADAE6] rounded-lg justify-center font-inria shadow-lg flex-col transition duration-200 hover:scale-105'>
-                    <button className='flex flex-row items-center justify-center text-[#AD563B] transition transform font-bold py-2' onClick={openModal}>
-                        <IoIosAddCircleOutline size={20} className='mx-1' />
-                        Add Category
-                    </button>
-                </div>
-                {isModalOpen && <BudgetModal closeModal={closeModal} addCategory={addCategory} />}
+      {/* Headers */}
+      <div className="flex justify-between items-center border-b border-gray-300 mt-4 pb-1 font-medium text-gray-700">
+        <span>Category</span>
+        <span>Amount</span>
+      </div>
 
-                <div className='flex font-inria py-2 border-t-2 border-t-gray-300 justify-between px-4 font-bold'>
-                    <div>Category</div>
-                    <div className='flex-1 text-center'>Amount</div>
-                </div>
-
-                {categories.map((category) => (
-                    <div key={category._id} className='flex justify-between items-center font-inria py-2 border-t-2 border-t-gray-300 px-4'>
-                        <div className="flex items-center">
-                            <span>{category.title}</span>
-                        </div>
-                        <p className={category.checked ? 'line-through' : ''}>₹{category.amount}</p>
-                        <FaRegTrashAlt size={20} className='text-gray-500 cursor-pointer' onClick={() => onClickTrash(category._id)} />
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+      {/* Items */}
+      <div className="mt-2 space-y-2 max-h-[300px] overflow-y-auto pr-1">
+        {categories.map((category) => (
+          <div
+            key={category._id}
+            className="flex justify-between items-center py-2 border-b border-gray-100 hover:bg-gray-50 px-2 rounded-md transition"
+          >
+            <span className="text-sm text-gray-700">{category.title}</span>
+            <span
+              className={`text-sm font-medium ${
+                category.checked ? "line-through text-gray-400" : "text-green-700"
+              }`}
+            >
+              ₹{category.amount}
+            </span>
+            <FaRegTrashAlt
+              size={16}
+              className="text-gray-500 hover:text-red-500 cursor-pointer transition"
+              onClick={() => onClickTrash(category._id)}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default BudgetManagement;
