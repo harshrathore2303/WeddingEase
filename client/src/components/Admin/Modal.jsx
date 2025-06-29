@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useServiceStore } from "../../store/UseServiceStore";
 import { LuLoader } from "react-icons/lu";
 
-const Modal = ({ setOpen }) => {
+const Modal = ({ setOpen, editService }) => {
   const data = [
     "Hall",
     "Photographer",
@@ -10,18 +10,15 @@ const Modal = ({ setOpen }) => {
     "Decorator",
     "Musician",
     "Dj",
-    "Makeup",
-    "Mehendi",
+    "Makeup Artist",
+    "Mehendi Artist",
     "Planner",
-    "Transport",
-    "Jewellery",
-    "Attire",
-    "Gifts",
-    "Invitations",
+    "Transporter",
     "Others",
   ];
 
-  const { createService, isLoading } = useServiceStore();
+  const { createService, isLoading, adminServices, updateService, error } =
+    useServiceStore();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -35,6 +32,11 @@ const Modal = ({ setOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (formData.imageSet.length > 5) {
+      alert("Only images up to 5 are allowed");
+      return;
+    }
+
     const form = new FormData();
     form.append("title", formData.title);
     form.append("location", formData.location);
@@ -46,17 +48,42 @@ const Modal = ({ setOpen }) => {
       form.append("imageSet", formData.imageSet[i]);
     }
 
-    console.log(formData);
-    // console.log(form);
+    console.log(form);
     try {
-      await createService(form);
-      alert("Service created!");
-      setOpen(false);
+      if (editService) {
+        await updateService(editService._id, {
+          title: formData.title,
+          location: formData.location,
+          price: formData.price,
+          tag: formData.tag,
+        });
+      } else {
+        await createService(form);
+      }
+      const { error: currentError } = useServiceStore.getState();
+
+      if (!currentError) {
+        await adminServices();
+        setOpen(false);
+      }
     } catch (error) {
       console.error(error);
-      alert("Failed to create service.");
+      alert("Failed Operation");
     }
   };
+
+  useEffect(() => {
+    if (editService) {
+      setFormData({
+        title: editService.title,
+        price: editService.price,
+        location: editService.location,
+        tag: editService.tag,
+        dp: "",
+        imageSet: [],
+      });
+    }
+  }, [editService]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -67,7 +94,10 @@ const Modal = ({ setOpen }) => {
         >
           &times;
         </button>
-        <h2 className="text-lg font-semibold mb-4">Create New Service</h2>
+
+        <h2 className="text-lg font-semibold mb-4">
+          {editService ? "Edit Service" : "Create New Service"}
+        </h2>
         <form className="space-y-4">
           <input
             type="text"
@@ -93,12 +123,13 @@ const Modal = ({ setOpen }) => {
           />
           <input
             type="number"
+            min={5}
             placeholder="Price"
             className="w-full p-2 border border-gray-500 rounded"
             name="price"
             value={formData.price}
             onChange={(e) =>
-              setFormData({ ...formData, price: e.target.value })
+              setFormData({ ...formData, price: Number(e.target.value) })
             }
             required
           />
@@ -128,10 +159,11 @@ const Modal = ({ setOpen }) => {
               accept="image/*"
               className="w-full"
               id="dp"
-              required
               onChange={(e) =>
                 setFormData({ ...formData, dp: e.target.files[0] })
               }
+              required={!editService}
+              disabled={editService}
             />
 
             <label htmlFor="sp" className="font-semibold">
@@ -146,10 +178,15 @@ const Modal = ({ setOpen }) => {
               onChange={(e) =>
                 setFormData({ ...formData, imageSet: e.target.files })
               }
-              required
+              required={!editService}
+              disabled={editService}
             />
           </div>
-
+          {error && (
+            <p className="text-red-600 text-sm">
+              {error}
+            </p>
+          )}
           <button
             type="submit"
             className="bg-base-but hover:bg-base-butHover  text-white px-4 py-2 rounded"

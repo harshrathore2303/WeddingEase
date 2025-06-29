@@ -16,7 +16,7 @@ const useAuthStore = create((set) => ({
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/checkAuth");
-      console.log(res);
+      // console.log(res);
       set({ authUser: res.data, isAdmin: res.data.role === "admin" });
     } catch (error) {
       set({ authUser: null, isAdmin: false });

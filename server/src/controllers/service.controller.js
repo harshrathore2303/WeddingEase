@@ -7,17 +7,26 @@ const createService = async (req, res) => {
   try {
     const { title, price, location, tag } = req.body;
     console.log("Oye mein yaha hoon")
-    if ([title, price, location, tag].some((field) => field?.trim() === "")) {
+    if ([title, location, tag].some((field) => field?.trim() === "") || price === 0) {
       return res.status(404).json({ message: "all fields are required" });
     }
     console.log("Yaha tk aaye 1");
-    const dpLocalPath = req.files?.dp[0]?.path;
+    
+    const dpLocalPath = req.files?.dp && req.files.dp.length > 0 ? req.files?.dp[0]?.path : null;
 
     const imageSetFiles = req.files?.imageSet || [];
     console.log("Yaha tk aaye 2");
 
     if (!dpLocalPath) {
       return res.status(400).json({ message: "dp file is required" });
+    }
+    
+    if (imageSetFiles.length === 0){
+      return res.status(400).json({ message: "images are required" });
+    }
+    
+    if (imageSetFiles.length > 5){
+      return res.status(400).json({ message: "Only 5 images are allowed" });
     }
 
     const dp = await uploadCloudinary(dpLocalPath);
@@ -121,7 +130,7 @@ const getServicesByAdmin = async (req, res) => {
     const userId = req.user._id;
 
     const data = await Service.find({ adminId: req.user._id });;
-    console.log(data)
+    // console.log(data)
 
     if (!data) {
       return res.status(404).json({ message: "User not found" });
@@ -129,7 +138,7 @@ const getServicesByAdmin = async (req, res) => {
 
     return res.status(200).json({
       message: "Services fetched successfully",
-      data: data.services,
+      data,
     });
   } catch (error) {
     console.log("Error:::", error);
@@ -137,4 +146,48 @@ const getServicesByAdmin = async (req, res) => {
   }
 }
 
-export { createService, getAllServices, getById, getByFilter, getServicesByAdmin };
+const deleteService = async (req, res) => {
+  try {
+    const {id} = req.params;
+    const service = await Service.findById(id);
+    if (!service){
+      return res.status(404).json({message: "Service not found"});
+    }
+
+    const serviceDeletion = await Service.findByIdAndDelete(id);
+    
+    return res.status(200).json({message: "Service deleted successfully"});
+  } catch (error) {
+    console.log("Error:::", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+const updateService = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, price, location, tag } = req.body;
+
+    const service = await Service.findById(id);
+    if (!service) {
+      return res.status(404).json({ message: "Service not found" });
+    }
+
+    if ([title, location, tag].some((field) => field?.trim() === "") || price === 0) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    await Service.findByIdAndUpdate(
+      id,
+      { title, price, location, tag },
+      { new: true }
+    );
+
+    return res.status(200).json({ message: "Service updated successfully" });
+  } catch (error) {
+    console.log("Error:::", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+export { createService, getAllServices, getById, getByFilter, getServicesByAdmin, deleteService, updateService };
