@@ -9,14 +9,14 @@ const useAuthStore = create((set) => ({
   isCheckingAuth: true,
   loginErr: "",
   signUpErr: "",
-
-
+  updateErr: "",
   isAdmin: false,
+  success: false,
 
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/checkAuth");
-      // console.log(res);
+      // console.log(res.data);
       set({ authUser: res.data, isAdmin: res.data.role === "admin" });
     } catch (error) {
       set({ authUser: null, isAdmin: false });
@@ -61,6 +61,30 @@ const useAuthStore = create((set) => ({
     } catch (error) {
       console.log("error::", error);
     }
+  },
+
+  updateProfile: async (formData) => {
+    set({ isUpdatingProfile: true });
+    try {
+      console.log("Hey!! There i reached here.");
+      await axiosInstance.put("/update", formData);
+      set({ success: true });
+    } catch (error) {
+      set({ updateErr: error?.response?.data?.message });
+      // console.log("error::", error);
+    } finally {
+      set({ isUpdatingProfile: false });
+    }
+  },
+
+  clearError: async () => {
+    set({ updateErr: null, signUpErr: null, loginErr: null });
+  },
+
+  clearSuccess: async () => {
+    setTimeout(() => {
+      set({ success: false });
+    }, 3000);
   },
 }));
 
