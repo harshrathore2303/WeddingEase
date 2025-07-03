@@ -63,6 +63,7 @@ const Services = () => {
                     src={item.dp}
                     alt="service"
                     className="w-12 h-12 rounded-full object-cover border border-gray-300 shadow-sm"
+                    loading="lazy"
                   />
                 </td>
                 <td className="py-3 px-4">{item.title}</td>
