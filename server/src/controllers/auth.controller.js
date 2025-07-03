@@ -85,9 +85,7 @@ const login = async (req, res) => {
     });
 
     if (!user || user.role !== role) {
-      return res
-        .status(400)
-        .json({ message: "email doesn't exist" });
+      return res.status(400).json({ message: "email doesn't exist" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -160,4 +158,37 @@ const getUsers = async (req, res) => {
   }
 };
 
-export { signup, login, logout, checkAuth, getUsers };
+const updateProfile = async (req, res) => {
+  try {
+    const { fullname, email, password, confirmPassword, phone, username } =
+      req.body;
+    console.log("Reached here")
+    if ([fullname, email, password, confirmPassword, phone, username].some((field) => field.trim() === "")){
+      return res.status(400).json({message: "Empty fields not allowed"});
+    }
+    const id = req.user._id;
+
+    if (password !== confirmPassword) {
+      return res
+        .status(400)
+        .json({
+          message: "Password unmatch in comfirm passfield and password field",
+        });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      { _id: id },
+      { fullname, email, password: hashedPassword, phone, username },
+      { new: true }
+    );
+
+    return res.status(200).json({message: "Update Success"});
+  } catch (error) {
+    console.log("Error in put operation:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export { signup, login, logout, checkAuth, getUsers, updateProfile };
