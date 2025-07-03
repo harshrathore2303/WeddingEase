@@ -1,30 +1,56 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useAuthStore } from "../../store/UseAuthStore";
+import { LuLoader } from "react-icons/lu";
 
 const Profile = () => {
+  const {
+    updateProfile,
+    updateErr,
+    clearError,
+    isUpdatingProfile,
+    authUser,
+    success,
+    clearSuccess,
+  } = useAuthStore();
+
   const [formData, setFormData] = useState({
-    fullname: "",
-    username: "",
-    email: "",
-    phone: "",
+    fullname: `${authUser.fullname}`,
+    username: `${authUser.username}`,
+    email: `${authUser.email}`,
+    phone: `${authUser.phone}`,
     password: "",
     confirmPassword: "",
   });
 
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+  const handleChange = useCallback(
+    (e) => {
+      setFormData((prev) => ({
+        ...prev,
+        [e.target.name]: e.target.value,
+      }));
+    },
+    [clearError, updateProfile, formData]
+  );
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    clearError();
+    // console.log("Updating profile:", formData);
+    updateProfile(formData);
   };
 
-  const handleUpdate = () => {
-    console.log("Updating profile:", formData);
-    // Connect to your backend here
-  };
+  useEffect(() => {
+    if (success) {
+      clearSuccess();
+    }
+  }, [success, clearSuccess]);
 
   return (
     <div className="md:ml-64 ml-32 p-4 min-h-screen flex items-center justify-center bg-[#fdfcf4] font-serif">
-      <div className="w-full max-w-3xl bg-white shadow-md rounded-xl p-8 border border-[#dcd6a3]">
+      <form
+        onSubmit={(e) => handleUpdate(e)}
+        className="w-full max-w-3xl bg-white shadow-md rounded-xl p-8 border border-[#dcd6a3]"
+      >
         <h2 className="text-3xl font-bold text-center text-[#3e3c1b] mb-8">
           Update Profile
         </h2>
@@ -77,7 +103,7 @@ const Profile = () => {
               Phone
             </label>
             <input
-              type="text"
+              type="tel"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
@@ -115,15 +141,29 @@ const Profile = () => {
           </div>
         </div>
 
+        {updateErr && (
+          <p className="text-red-600 text-sm mt-1 text-center">{updateErr}</p>
+        )}
+        {success && (
+          <p className="text-green-700 text-sm mt-1 text-center">
+            Profile Updated Successfully
+          </p>
+        )}
         <div className="mt-8 text-center">
           <button
-            onClick={handleUpdate}
+            type="submit"
             className="bg-[#3e3c1b] text-white px-6 py-2 rounded-lg hover:bg-[#2e2c15] transition"
           >
-            Update Profile
+            {isUpdatingProfile ? (
+              <>
+                <LuLoader className="h-5 w-5 animate-spin" />
+              </>
+            ) : (
+              "update Profile"
+            )}
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
