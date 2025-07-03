@@ -121,7 +121,6 @@ const LoginPage = () => {
                   {isLoggingIn ? (
                     <>
                       <LuLoader className="h-5 w-5 animate-spin" />
-                      Loading...
                     </>
                   ) : (
                     "Login"
