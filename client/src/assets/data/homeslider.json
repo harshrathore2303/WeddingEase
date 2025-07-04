@@ -1,18 +1,18 @@
 [
     {
       "id": 1,
-      "url": "/dist/assets/slider/mandap.jpg"
+      "url": "https://res.cloudinary.com/dpsgxzjzw/image/upload/v1751630163/music_nohvaw.jpg"
     },
     {
       "id": 2,
-      "url": "/dist/assets/slider/dj-dance.jpg"
+      "url": "https://res.cloudinary.com/dpsgxzjzw/image/upload/v1751630161/decor_bgzh9s.jpg"
     },
     {
       "id": 3,
-      "url": "/dist/assets/slider/decor.jpg"
+      "url": "https://res.cloudinary.com/dpsgxzjzw/image/upload/v1751630161/mandap_imfvhl.jpg"
     },
     {
       "id": 4,
-      "url": "/dist/assets/slider/music.jpg"
+      "url": "https://res.cloudinary.com/dpsgxzjzw/image/upload/v1751630160/dj-dance_g1yyu3.jpg "
     }
   ]

@@ -5,7 +5,7 @@ import Home from "./components/Home/Home";
 import NavBar from "./components/NavBar/NavBar";
 import PlanningTools from "./components/PlanningTools/PlanningTools";
 import { Routes, Route, Navigate, Router, useNavigate } from "react-router-dom";
-import Notfound from "./components/Notfound";
+import Notfound from "./components/Notfound/Notfound";
 import LoginPage from "./components/Login/LoginPage";
 import SignupPage from "./components/Login/SignupPage";
 import WeddingServices from "./components/Organise/WeddingServices";

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-const Slider = ({slides, label}) => {
-
+const Slider = ({ slides, label }) => {
+  // console.log(slides)
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevSlide = () => {
@@ -17,11 +17,19 @@ const Slider = ({slides, label}) => {
   };
 
   return (
-    <div className={label == "home" ? "md:my-8 px-4 relative group md:h-[580px] w-full h-[210px]": "md:my-4 px-2 relative group md:h-[410px] w-[700px] h-[210px]"} >
-      <div
-        style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
-        className="w-full h-full rounded-2xl bg-center bg-cover duration-500"
-      ></div>
+    <div
+      className={
+        label == "home"
+          ? "md:my-8 px-4 relative group md:h-[580px] w-full h-[210px]"
+          : "md:my-4 px-2 relative group md:h-[410px] w-[700px] h-[210px]"
+      }
+    >
+      <img
+        src={slides[currentIndex].url}
+        loading="lazy"
+        alt={`Slide ${currentIndex + 1}`}
+        className="w-full h-full object-cover rounded-2xl duration-500"
+      />
 
       {/* Left Arrow */}
       <div
@@ -46,7 +54,9 @@ const Slider = ({slides, label}) => {
             key={slide.id}
             onClick={() => setCurrentIndex(index)}
             className={`cursor-pointer w-2 h-2 rounded-full ${
-              index === currentIndex ? "bg-[#323232]" : "border border-[#323232] bg-[#AEAEAE]"
+              index === currentIndex
+                ? "bg-[#323232]"
+                : "border border-[#323232] bg-[#AEAEAE]"
             }`}
           ></div>
         ))}
