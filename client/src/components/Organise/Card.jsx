@@ -24,7 +24,9 @@ const Card = ({ id, detail }) => {
         {detail.title}
       </h2>
 
-      <span>{detail.tag.toLowerCase()}</span>
+      <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full mt-2 w-fit">
+        {detail.tag}
+      </span>
 
       {/* Location */}
       <div className="flex items-center gap-2 text-gray-600 text-sm mt-1">
@@ -38,7 +40,12 @@ const Card = ({ id, detail }) => {
       </div>
 
       {/* Button */}
-      <button className="w-full bg-base-but text-white rounded-lg py-2 mt-4 hover:bg-base-butHover transition" onClick={() => {navigate(`/organize/mainpage/${detail.tag}/${id}`)}}>
+      <button
+        className="w-full bg-base-but text-white rounded-lg py-2 mt-4 hover:bg-base-butHover transition"
+        onClick={() => {
+          navigate(`/organize/mainpage/${detail.tag}/${id}`);
+        }}
+      >
         Book Now
       </button>
     </div>

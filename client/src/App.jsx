@@ -58,8 +58,7 @@ function App() {
             <Route path="*" element={<Notfound />} />
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/organize" element={<WeddingServices />} />
-            <Route path="/organize/mainpage/:tag" element={<MainPage />} />
+            <Route path="/organize" element={<MainPage />} />
             <Route
               path="/organize/mainpage/:tag/:id"
               element={<ShowDetails />}

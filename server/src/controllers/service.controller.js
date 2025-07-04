@@ -69,13 +69,38 @@ const createService = async (req, res) => {
   }
 };
 
-const getAllServices = async (req, res) => {
+const getServices = async (req, res) => {
   try {
-    const services = await Service.find();
+    const {tag, location, search} = req.query;
+    const filter = {};
+    
+    if (tag){
+      filter.tag = {$regex: tag, $options: "i"};
+    }
+
+    if (location){
+      filter.location = {$regex: location, $options: "i"};
+    }
+
+    if (search) {
+      filter.$or = [
+        { title: { $regex: search, $options: "i" } },
+        { tag: { $regex: search, $options: "i" } },
+        { location: { $regex: search, $options: "i" } }
+      ];
+    }
+
+    const data = await Service.find(filter);
+    
+    if (data.length === 0) {
+      return res
+        .status(200)
+        .json({ message: "No services available", data });
+    }
 
     return res
       .status(200)
-      .json({ message: "Data fetched successfully", data: services });
+      .json({ message: "Data fetched successfully", data });
   } catch (error) {
     console.log("Error:::", error);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -92,33 +117,6 @@ const getById = async (req, res) => {
     return res
       .status(200)
       .json({ message: "Data fetched successfully", data: service });
-  } catch (error) {
-    console.log("Error:::", error);
-    return res.status(500).json({ message: "Internal Server Error" });
-  }
-};
-
-const getByFilter = async (req, res) => {
-  try {
-    const { tag, location } = req.query;
-    const filter = {};
-    if (tag) {
-      filter.tag = { $regex: tag, $options: "i" }; // case-insensitive match
-    }
-    if (location) {
-      filter.location = { $regex: location, $options: "i" }; // case-insensitive match
-    }
-
-    const services = await Service.find(filter);
-
-    if (services.length === 0) {
-      return res
-        .status(200)
-        .json({ message: "No services available", data: [] });
-    }
-    return res
-      .status(200)
-      .json({ message: "Data fetched successfully", data: services });
   } catch (error) {
     console.log("Error:::", error);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -190,4 +188,4 @@ const updateService = async (req, res) => {
   }
 }
 
-export { createService, getAllServices, getById, getByFilter, getServicesByAdmin, deleteService, updateService };
+export { createService, getServices, getById, getServicesByAdmin, deleteService, updateService };

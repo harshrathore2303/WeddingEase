@@ -8,13 +8,14 @@ const useServiceStore = create((set) => ({
   success: false,
   servicesByAdmin: [],
 
-  fetchServices: async () => {
+  fetchServices: async (query = {}) => {
     set({ loading: true, error: null });
     try {
-      const res = await axiosInstance.get("/services");
-      set({ services: res.data, error:null });
+      const queryString = new URLSearchParams(query).toString();
+      const res = await axiosInstance.get(`/services?${queryString}`);
+      set({ services: res.data.data, error:null });
     } catch (error) {
-      set({ error: error?.response?.data?.message });
+      set({ error: error?.response?.data?.message || "Failed to fetch services"  });
     } finally {
       set({ isLoading: false });
     }
