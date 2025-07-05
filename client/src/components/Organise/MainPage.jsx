@@ -42,10 +42,12 @@ const locations = [
 ];
 
 const MainPage = () => {
-  const { fetchServices, isLoading, services } = useServiceStore();
+  const { fetchServices, isLoading, services, page, totalPages } =
+    useServiceStore();
   const [search, setSearch] = useState("");
   const [tag, setTag] = useState("");
   const [location, setLocation] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -55,25 +57,43 @@ const MainPage = () => {
     if (tag) params.tag = tag;
     if (location) params.location = location;
     if (search) params.search = search;
+    params.page = 1;
+
+    setCurrentPage(1);
     setSearchParams(params);
     fetchServices(params);
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage < 1 || newPage > totalPages) return;
+    const params = {};
+    if (tag) params.tag = tag;
+    if (location) params.location = location;
+    if (search) params.search = search;
+    params.page = newPage;
+
+    setCurrentPage(newPage);
+    setSearchParams(params);
   };
 
   useEffect(() => {
     const tagParam = searchParams.get("tag") || "";
     const locationParam = searchParams.get("location") || "";
     const searchParam = searchParams.get("search") || "";
+    const pageParam = parseInt(searchParams.get("page")) || 1;
 
     setTag(tagParam);
     setLocation(locationParam);
     setSearch(searchParam);
+    setCurrentPage(pageParam);
 
     fetchServices({
       tag: tagParam,
       location: locationParam,
       search: searchParam,
+      page: pageParam,
     });
-  }, []);
+  }, [searchParams]);
 
   return (
     <div className="px-4 md:px-16 lg:px-36 py-6 font-serif">
@@ -114,9 +134,9 @@ const MainPage = () => {
             className="border-2 rounded-xl px-4 py-2 text-sm"
           >
             <option value="">All Locations</option>
-            {locations.map((loc, idx) => (
-              <option key={idx} value={loc}>
-                {loc}
+            {locations.map((location, idx) => (
+              <option key={idx} value={location}>
+                {location}
               </option>
             ))}
           </select>
@@ -131,8 +151,6 @@ const MainPage = () => {
         </button>
       </div>
 
-      {/* Results */}
-
       {isLoading ? (
         <div className="text-center w-full py-10">Loading services...</div>
       ) : services?.length === 0 ? (
@@ -145,6 +163,30 @@ const MainPage = () => {
             ))}
           </div>
         </section>
+      )}
+
+      {totalPages > 1 && (
+        <div className="flex justify-center gap-2 mt-8">
+          <button
+            className="px-3 py-1 border rounded disabled:opacity-50"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+
+          <span className="px-4 py-1 font-medium">
+            Page {currentPage} of {totalPages}
+          </span>
+
+          <button
+            className="px-3 py-1 border rounded disabled:opacity-50"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
       )}
     </div>
   );

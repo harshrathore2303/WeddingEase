@@ -73,7 +73,11 @@ const getServices = async (req, res) => {
   try {
     const {tag, location, search} = req.query;
     const filter = {};
-    
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 12;
+
+    const offset = (page - 1) * limit;
+
     if (tag){
       filter.tag = {$regex: tag, $options: "i"};
     }
@@ -90,17 +94,20 @@ const getServices = async (req, res) => {
       ];
     }
 
-    const data = await Service.find(filter);
+    const [services, total] = await Promise.all([
+      Service.find(filter).skip(offset).limit(limit),
+      Service.countDocuments(filter)
+    ]);
     
-    if (data.length === 0) {
+    if (services.length === 0) {
       return res
         .status(200)
-        .json({ message: "No services available", data });
+        .json({ message: "No services available", data:services });
     }
 
     return res
       .status(200)
-      .json({ message: "Data fetched successfully", data });
+      .json({ message: "Data fetched successfully", data:services, page, limit, total, totalPages: Math.ceil(total / limit) });
   } catch (error) {
     console.log("Error:::", error);
     return res.status(500).json({ message: "Internal Server Error" });

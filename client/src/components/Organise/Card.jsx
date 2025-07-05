@@ -9,6 +9,7 @@ const Card = ({ id, detail }) => {
       {/* Image Section */}
       <div className="relative w-full h-40 md:h-56">
         <img
+          loading="lazy"
           src={detail.dp}
           alt="image"
           className="w-full h-full object-cover rounded-xl shadow-inner"
