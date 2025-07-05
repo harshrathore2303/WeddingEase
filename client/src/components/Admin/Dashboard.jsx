@@ -5,6 +5,7 @@ import Sidebar from "./SideBar";
 import Notifications from "./Notifications";
 import Profile from "./Profile";
 import Services from "./Services";
+import Bookings from "./Booking";
 
 const Dashboard = () => {
   return (
@@ -16,6 +17,7 @@ const Dashboard = () => {
           <Route path="services" element={<Services />} />
           <Route path="profile" element={<Profile />} />
           <Route path="notifications" element={<Notifications />} />
+          <Route path="bookings" element={<Bookings/>}/>
         </Routes>
       </div>
     </div>

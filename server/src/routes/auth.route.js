@@ -5,6 +5,7 @@ import {
   logout,
   checkAuth,
   getUsers,
+  updateProfile,
 } from "../controllers/auth.controller.js";
 import { verifyJWT } from "../middlewares/verifyJWT.js";
 
@@ -16,5 +17,7 @@ router.post("/logout", logout);
 
 router.get("/checkAuth", verifyJWT, checkAuth);
 router.get("/getUsers", verifyJWT, getUsers);
+router.put("/update", verifyJWT, updateProfile)
+
 
 export default router;

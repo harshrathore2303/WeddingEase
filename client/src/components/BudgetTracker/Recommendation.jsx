@@ -1,19 +1,31 @@
-import React from 'react'
+import React from 'react';
 
 const Recommendation = () => {
-    return (
-        <div className=''>
-            <div className='w-[350px] bg-[#F4F4FF] rounded-lg shadow-lg border-gray-300 border'>
-                <div className='flex justify-center bg-[#DADAE6] rounded-lg shadow-lg py-2 text-[#AD563B] font-inria font-bold'>
-                    Recommendation
-                </div>
-
-                <div className='flex justify-center items-center font-inria py-2 border-t-2 border-t-gray-300 px-4'>
-                    <button className='transition hover:scale-125'>Title</button>
-                </div>
-            </div>
+  return (
+    <div>
+      <div className="w-[350px] bg-[#F4F4FF] rounded-xl shadow-md border border-gray-300 font-serif">
+        {/* Header */}
+        <div className="bg-[#DADAE6] text-[#AD563B] font-semibold text-center py-2 rounded-t-xl shadow">
+          Suggestions For You
         </div>
-    )
-}
 
-export default Recommendation
+        {/* Content */}
+        <div className="p-4 space-y-3">
+          <button className="w-full text-left bg-white hover:bg-[#f2f2f2] transition duration-200 border border-gray-200 rounded-lg px-3 py-2 shadow-sm hover:shadow-md text-[#3e3c1b] font-medium">
+            Consider allocating more for Catering if guest count &gt; 100.
+          </button>
+
+          <button className="w-full text-left bg-white hover:bg-[#f2f2f2] transition duration-200 border border-gray-200 rounded-lg px-3 py-2 shadow-sm hover:shadow-md text-[#3e3c1b] font-medium">
+            Photographers often get booked early – reserve soon!
+          </button>
+
+          <button className="w-full text-left bg-white hover:bg-[#f2f2f2] transition duration-200 border border-gray-200 rounded-lg px-3 py-2 shadow-sm hover:shadow-md text-[#3e3c1b] font-medium">
+            Transport vendors can help guests arrive on time.
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Recommendation;

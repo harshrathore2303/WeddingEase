@@ -1,57 +1,66 @@
 import React, { useEffect } from 'react';
-import { FaRupeeSign } from "react-icons/fa";
+import { FaRupeeSign } from 'react-icons/fa';
 import ExpenseItem from './ExpenseItem';
 import useBudgetStore from '../../store/useBudgetStore';
 
 const ExpenseTrack = () => {
-    const { categories, fetchBudgetItems, updateBudgetItem } = useBudgetStore();
+  const { categories, fetchBudgetItems, updateBudgetItem } = useBudgetStore();
 
-    useEffect(() => {
-        fetchBudgetItems();
-    }, [fetchBudgetItems]);
+  useEffect(() => {
+    fetchBudgetItems();
+  }, [fetchBudgetItems]);
 
-    const handleCheckboxChange = (id, checked) => {
-        updateBudgetItem(id, checked);
-    };
+  const handleCheckboxChange = (id, checked) => {
+    updateBudgetItem(id, checked);
+  };
 
-    const totalAmount = categories.reduce((total, category) => total + category.amount, 0);
-    const checkedAmount = categories.reduce((total, category) => category.checked ? total + category.amount : total, 0);
-    const remainingAmount = totalAmount - checkedAmount;
+  const totalAmount = categories.reduce((total, cat) => total + cat.amount, 0);
+  const checkedAmount = categories.reduce(
+    (total, cat) => (cat.checked ? total + cat.amount : total),
+    0
+  );
+  const remainingAmount = totalAmount - checkedAmount;
 
-    return (
-        <div className=''>
-            <div className='bg-[#F4F4FF] w-[400px] rounded-lg shadow-lg border-gray-300 border'>
-                <div className='flex justify-center font-inria font-bold items-center py-2 w-full bg-[#DADAE6] rounded-lg shadow-lg'>
-                    <FaRupeeSign size={15} className='mx-1' />
-                    Total Expense
-                </div>
-
-                {categories.map((category) => (
-                    <ExpenseItem
-                        key={category._id}
-                        id={category._id}
-                        title={category.title}
-                        amount={category.amount}
-                        checked={category.checked}
-                        onCheckboxChange={handleCheckboxChange}
-                    />
-                ))}
-
-                <div className='flex justify-evenly px-5 py-5 border-t-gray-300 border-t-2'>
-                    <div className='flex justify-evenly w-[350px]'>
-                        <span>Total Amount</span>
-                        <span>₹{totalAmount}</span>
-                    </div>
-                </div>
-                <div className='flex justify-evenly px-5 py-1'>
-                    <div className='flex justify-evenly w-[350px]'>
-                        <span>Remaining</span>
-                        <span>₹{remainingAmount}</span>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="font-serif">
+      <div className="w-full max-w-md bg-[#f4f4ff] rounded-xl shadow-md border border-gray-300 p-4">
+        <div className="bg-[#dadada] rounded-md py-2 px-4 text-center font-semibold text-[#3e3c1b] shadow">
+          <div className="flex justify-center items-center gap-2 text-md">
+            <FaRupeeSign />
+            <span>Total Expense Tracker</span>
+          </div>
         </div>
-    );
+
+        <div className="mt-4 space-y-3 max-h-[300px] overflow-y-auto pr-1">
+          {categories.map((cat) => (
+            <ExpenseItem
+              key={cat._id}
+              id={cat._id}
+              title={cat.title}
+              amount={cat.amount}
+              checked={cat.checked}
+              onCheckboxChange={handleCheckboxChange}
+            />
+          ))}
+        </div>
+
+        <div className="mt-6 border-t pt-4 space-y-2 text-sm text-gray-800 font-medium">
+          <div className="flex justify-between">
+            <span>Total Budget</span>
+            <span>₹{totalAmount.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Used</span>
+            <span>₹{checkedAmount.toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between text-green-700 font-semibold">
+            <span>Remaining</span>
+            <span>₹{remainingAmount.toFixed(2)}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ExpenseTrack;

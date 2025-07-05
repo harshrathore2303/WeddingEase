@@ -3,7 +3,7 @@ import Footer from "./components/Footer/Footer";
 // import HallsPage from "./components/Halls/HallsPage";
 import Home from "./components/Home/Home";
 import NavBar from "./components/NavBar/NavBar";
-import PlanningTools from "./components/PlanningTools";
+import PlanningTools from "./components/PlanningTools/PlanningTools";
 import { Routes, Route, Navigate, Router, useNavigate } from "react-router-dom";
 import Notfound from "./components/Notfound";
 import LoginPage from "./components/Login/LoginPage";
