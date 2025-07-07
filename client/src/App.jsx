@@ -58,7 +58,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/organize" element={<MainPage />} />
             <Route
-              path="/organize/mainpage/:tag/:id"
+              path="/organize/detail/:tag/:id"
               element={<ShowDetails />}
             />
             <Route

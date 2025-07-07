@@ -89,6 +89,7 @@ export default function NavBar() {
                       setToggleProfile(false);
                       logout();
                     }}
+                    key={index}
                   >
                     Log out
                   </NavLink>
@@ -134,6 +135,7 @@ export default function NavBar() {
                         isActive ? "bg-base-but text-white" : "text-black"
                       }`
                     }
+                    key={index}
                     to={item.address}
                     onClick={() => setToggle(false)}
                   >

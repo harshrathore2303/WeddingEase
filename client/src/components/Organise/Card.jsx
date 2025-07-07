@@ -44,7 +44,7 @@ const Card = ({ id, detail }) => {
       <button
         className="w-full bg-base-but text-white rounded-lg py-2 mt-4 hover:bg-base-butHover transition"
         onClick={() => {
-          navigate(`/organize/mainpage/${detail.tag}/${id}`);
+          navigate(`/organize/detail/${detail.tag}/${id}`);
         }}
       >
         Book Now
