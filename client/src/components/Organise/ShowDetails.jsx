@@ -48,7 +48,7 @@ const ShowDetails = () => {
               ₹{service.price}
             </div>
 
-            <div className="border border-gray-300 rounded-md p-3 mb-4 w-full overflow-x-auto">
+            <div className="">
               <p className="text-sm font-medium mb-2">Available Dates</p>
               <Calendar
                 minDate={new Date()}
