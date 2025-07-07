@@ -117,6 +117,7 @@ const getServices = async (req, res) => {
 const getById = async (req, res) => {
   try {
     const id = req.params.id;
+    
     const service = await Service.findById(id);
     if (!service) {
       return res.status(404).json({ message: "Not found" });
@@ -134,7 +135,7 @@ const getServicesByAdmin = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    const data = await Service.find({ adminId: req.user._id });;
+    const data = await Service.find({ adminId: req.user._id });
     // console.log(data)
 
     if (!data) {
