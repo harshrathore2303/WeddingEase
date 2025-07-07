@@ -3,7 +3,7 @@ import React from 'react';
 const Recommendation = () => {
   return (
     <div>
-      <div className="w-[350px] bg-[#F4F4FF] rounded-xl shadow-md border border-gray-300 font-serif">
+      <div className="w-[350px] bg-[#f4f4ff] border border-black rounded-xl shadow-md font-serif">
         {/* Header */}
         <div className="bg-[#DADAE6] text-[#AD563B] font-semibold text-center py-2 rounded-t-xl shadow">
           Suggestions For You

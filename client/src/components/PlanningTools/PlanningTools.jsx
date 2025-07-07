@@ -20,25 +20,21 @@ const PlanningTools = () => {
   ];
 
   return (
-    <div className="p-4 min-h-screen bg-white font-serif max-w-full mx-auto">
-      <h2 className="text-2xl font-semibold mb-6 text-[#3e3c1b] text-center">Planning Tools</h2>
+    <div className="min-h-full max-w-full px-4 md:px-16 lg:px-36 py-6 font-serif">
+      <h1 className="text-3xl font-bold text-center mb-6">Planning Tools</h1>
 
-      <div className="mb-6 flex justify-center">
+      <div className="mb-6 text-center">
         <ToggleButton buttons={buttonData} setActiveTab={setActiveTab} />
       </div>
 
       {/* Budget Section */}
       {activeTab === "Budget" && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-20">
-          <div className="bg-white p-5 rounded-xl shadow border border-gray-200 flex justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <BudgetManagement />
-          </div>
-          <div className="bg-white p-5 rounded-xl shadow border border-gray-200 flex justify-center">
+
             <ExpenseTrack />
-          </div>
-          <div className="bg-white p-5 rounded-xl shadow border border-gray-200 flex justify-center">
+
             <Recommendation />
-          </div>
         </div>
       )}
 

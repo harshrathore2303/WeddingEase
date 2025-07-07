@@ -9,8 +9,8 @@ export default {
       colors: {
         base: {
           nav: 'rgb(246, 246, 246)',
-          but: 'rgb(107,105,50)',
-          butHover: 'rgb(86, 84, 40)',
+          but: '#3e3c1b',
+          butHover: '#2e2c15',
         }
       },
       fontFamily: {

@@ -46,10 +46,10 @@ export default function NavBar() {
         </div>
 
         <div className="md:flex space-x-8 hidden items-center">
-          {address.map((item) => (
+          {address.map((item, index) => (
             <NavLink
               to={item.address}
-              key={item.id}
+              key={index}
               className={({ isActive }) =>
                 `hover:underline ${
                   isActive ? "text-blue-700 underline" : ""
@@ -134,6 +134,7 @@ export default function NavBar() {
                         isActive ? "bg-base-but text-white" : "text-black"
                       }`
                     }
+                    key={index}
                     to={item.address}
                     onClick={() => setToggle(false)}
                   >

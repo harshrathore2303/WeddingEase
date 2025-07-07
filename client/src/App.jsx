@@ -1,14 +1,12 @@
 import { useEffect } from "react";
 import Footer from "./components/Footer/Footer";
-// import HallsPage from "./components/Halls/HallsPage";
 import Home from "./components/Home/Home";
 import NavBar from "./components/NavBar/NavBar";
 import PlanningTools from "./components/PlanningTools/PlanningTools";
-import { Routes, Route, Navigate, Router, useNavigate } from "react-router-dom";
-import Notfound from "./components/Notfound";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Notfound from "./components/Notfound/Notfound";
 import LoginPage from "./components/Login/LoginPage";
 import SignupPage from "./components/Login/SignupPage";
-import WeddingServices from "./components/Organise/WeddingServices";
 import MainPage from "./components/Organise/MainPage";
 import ShowDetails from "./components/Organise/ShowDetails";
 import { useAuthStore } from "./store/UseAuthStore";
@@ -58,10 +56,9 @@ function App() {
             <Route path="*" element={<Notfound />} />
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/organize" element={<WeddingServices />} />
-            <Route path="/organize/mainpage/:tag" element={<MainPage />} />
+            <Route path="/organize" element={<MainPage />} />
             <Route
-              path="/organize/mainpage/:tag/:id"
+              path="/organize/detail/:tag/:id"
               element={<ShowDetails />}
             />
             <Route

@@ -69,13 +69,45 @@ const createService = async (req, res) => {
   }
 };
 
-const getAllServices = async (req, res) => {
+const getServices = async (req, res) => {
   try {
-    const services = await Service.find();
+    const {tag, location, search} = req.query;
+    const filter = {};
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 12;
+
+    const offset = (page - 1) * limit;
+
+    if (tag){
+      filter.tag = {$regex: tag, $options: "i"};
+    }
+
+    if (location){
+      filter.location = {$regex: location, $options: "i"};
+    }
+
+    if (search) {
+      filter.$or = [
+        { title: { $regex: search, $options: "i" } },
+        { tag: { $regex: search, $options: "i" } },
+        { location: { $regex: search, $options: "i" } }
+      ];
+    }
+
+    const [services, total] = await Promise.all([
+      Service.find(filter).skip(offset).limit(limit),
+      Service.countDocuments(filter)
+    ]);
+    
+    if (services.length === 0) {
+      return res
+        .status(200)
+        .json({ message: "No services available", data:services });
+    }
 
     return res
       .status(200)
-      .json({ message: "Data fetched successfully", data: services });
+      .json({ message: "Data fetched successfully", data:services, page, limit, total, totalPages: Math.ceil(total / limit) });
   } catch (error) {
     console.log("Error:::", error);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -85,6 +117,7 @@ const getAllServices = async (req, res) => {
 const getById = async (req, res) => {
   try {
     const id = req.params.id;
+    
     const service = await Service.findById(id);
     if (!service) {
       return res.status(404).json({ message: "Not found" });
@@ -98,38 +131,11 @@ const getById = async (req, res) => {
   }
 };
 
-const getByFilter = async (req, res) => {
-  try {
-    const { tag, location } = req.query;
-    const filter = {};
-    if (tag) {
-      filter.tag = { $regex: tag, $options: "i" }; // case-insensitive match
-    }
-    if (location) {
-      filter.location = { $regex: location, $options: "i" }; // case-insensitive match
-    }
-
-    const services = await Service.find(filter);
-
-    if (services.length === 0) {
-      return res
-        .status(200)
-        .json({ message: "No services available", data: [] });
-    }
-    return res
-      .status(200)
-      .json({ message: "Data fetched successfully", data: services });
-  } catch (error) {
-    console.log("Error:::", error);
-    return res.status(500).json({ message: "Internal Server Error" });
-  }
-};
-
 const getServicesByAdmin = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    const data = await Service.find({ adminId: req.user._id });;
+    const data = await Service.find({ adminId: req.user._id });
     // console.log(data)
 
     if (!data) {
@@ -190,4 +196,4 @@ const updateService = async (req, res) => {
   }
 }
 
-export { createService, getAllServices, getById, getByFilter, getServicesByAdmin, deleteService, updateService };
+export { createService, getServices, getById, getServicesByAdmin, deleteService, updateService };

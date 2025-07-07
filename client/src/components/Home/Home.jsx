@@ -10,25 +10,25 @@ export default function Home() {
       id: 1,
       title: "Great site",
       text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam aliquam voluptatibus quae?",
-      img: "/dist/assets/images/pics.jpg",
+      img: "https://res.cloudinary.com/dpsgxzjzw/image/upload/v1751630504/pics_ozoeew.jpg",
     },
     {
       id: 2,
       title: "Great site",
       text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam aliquam voluptatibus quae?",
-      img: "/dist/assets/images/pics.jpg",
+      img: "https://res.cloudinary.com/dpsgxzjzw/image/upload/v1751630504/pics_ozoeew.jpg",
     },
     {
       id: 3,
       title: "Great site",
       text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam aliquam voluptatibus quae?",
-      img: "/dist/assets/images/pics.jpg",
+      img: "https://res.cloudinary.com/dpsgxzjzw/image/upload/v1751630504/pics_ozoeew.jpg",
     },
     {
       id: 4,
       title: "Great site",
       text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam aliquam voluptatibus quae?",
-      img: "/dist/assets/images/pics.jpg",
+      img: "https://res.cloudinary.com/dpsgxzjzw/image/upload/v1751630504/pics_ozoeew.jpg",
     },
   ];
 
@@ -59,7 +59,7 @@ export default function Home() {
 
       {/* Code for features */}
       <div className="w-full mt-8 px-auto flex justify-center">
-        <img src="/dist/assets/icons/Group 48.png" />
+        <img src="https://res.cloudinary.com/dpsgxzjzw/image/upload/v1751630728/Group_48_frsazp.png" />
       </div>
 
       {/* Checkout gallaries */}
@@ -74,7 +74,7 @@ export default function Home() {
           I wiII take of everything for you from event planning and curation to
           design and predication.
         </q>
-        <img src="/dist/assets/images/image.png" className="w-full mt-5" />
+        <img src="https://res.cloudinary.com/dpsgxzjzw/image/upload/v1751630485/image_lf8cci.png" className="w-full mt-5" />
       </div>
 
       {/* code for reviews */}
