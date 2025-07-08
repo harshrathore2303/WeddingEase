@@ -5,7 +5,7 @@ import { GoChecklist } from "react-icons/go";
 import { RiGroupFill } from "react-icons/ri";
 import BudgetManagement from '../BudgetTracker/BudgetManagement';
 import ExpenseTrack from '../BudgetTracker/ExpenseTrack';
-import Recommendation from '../BudgetTracker/Recommendation';
+import Suggestions from '../BudgetTracker/Suggestions';
 import GuestList from '../GuestList/GuestList';
 import CheckList from '../CheckList/CheckList';
 
@@ -27,25 +27,22 @@ const PlanningTools = () => {
         <ToggleButton buttons={buttonData} setActiveTab={setActiveTab} />
       </div>
 
-      {/* Budget Section */}
       {activeTab === "Budget" && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <BudgetManagement />
 
             <ExpenseTrack />
 
-            <Recommendation />
+            <Suggestions />
         </div>
       )}
 
-      {/* Guest List Section */}
       {activeTab === "GuestList" && (
         <div className="bg-white p-6 rounded-xl shadow border border-gray-200">
           <GuestList setTotalGuest={setTotalGuest} />
         </div>
       )}
 
-      {/* Checklist Section */}
       {activeTab === "CheckList" && (
         <div className="bg-white p-6 rounded-xl shadow border border-gray-200">
           <CheckList />

@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import useBudgetStore from "../../store/useBudgetStore";
 
-const BudgetModal = ({ closeModal, addCategory }) => {
-  const [title, setTitle] = useState('');
-  const [amount, setAmount] = useState('');
+const BudgetModal = ({ setIsOpen }) => {
+  const { addBudgetItem, error, clearError } = useBudgetStore();
+  const [formData, setFormData] = useState({
+    title: "",
+    amount: 0,
+  });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (title && amount) {
-      const newCategory = {
-        title,
-        amount: parseFloat(amount),
-      };
-      addCategory(newCategory);
-      closeModal();
+
+    console.log(formData)
+    if (formData.title.trim() === "" || formData.amount === 0) {
+      alert("No empty field allowed");
+      return;
+    }
+
+    await addBudgetItem(formData);
+
+    const { error: currentError } = useBudgetStore.getState();
+    if (!currentError) {
+      setIsOpen(false);
+    } else {
+      clearError();
     }
   };
 
@@ -35,8 +46,10 @@ const BudgetModal = ({ closeModal, addCategory }) => {
               type="text"
               id="title"
               className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-[#AD563B]"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={formData.title}
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
               required
             />
           </div>
@@ -54,16 +67,18 @@ const BudgetModal = ({ closeModal, addCategory }) => {
               step="0.01"
               min="0"
               className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-[#AD563B]"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              value={formData.amount}
+              onChange={(e) =>
+                setFormData({ ...formData, amount: Number(e.target.value) })
+              }
               required
             />
           </div>
-
+          {error && <p className="text-red-600 text-sm mt-1">{error}</p>}
           <div className="flex justify-end gap-3 pt-2">
             <button
               type="button"
-              onClick={closeModal}
+              onClick={() => setIsOpen(false)}
               className="px-4 py-2 rounded-md text-sm bg-gray-300 hover:bg-gray-400 text-gray-800"
             >
               Cancel

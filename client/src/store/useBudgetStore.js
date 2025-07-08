@@ -17,14 +17,15 @@ const useBudgetStore = create((set) => ({
     }
   },
 
-  addBudgetItem: async (newCategory) => {
+  addBudgetItem: async (formData) => {
+    set({isLoading: true});
     try {
-      const response = await axiosInstance.post('/budget', newCategory);
-      set((state) => ({
-        categories: [...state.categories, response.data],
-      }));
+      const res = await axiosInstance.post('/budget', formData);
+      
     } catch (error) {
-      console.error('Error adding budget item:', error);
+      set({error: error?.response?.data?.message || "Failed to add"});
+    } finally {
+      set({isLoading: false});
     }
   },
 
@@ -50,6 +51,10 @@ const useBudgetStore = create((set) => ({
       console.error('Error updating budget item:', error);
     }
   },
+
+  clearError: () => {
+    set({error: null});
+  }
 }));
 
 export default useBudgetStore;

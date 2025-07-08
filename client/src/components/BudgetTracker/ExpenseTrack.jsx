@@ -10,19 +10,20 @@ const ExpenseTrack = () => {
     fetchBudgetItems();
   }, [fetchBudgetItems]);
 
-  const handleCheckboxChange = (id, checked) => {
-    updateBudgetItem(id, checked);
+  const handleCheckboxChange = async (id, checked) => {
+    await updateBudgetItem(id, checked);
   };
 
   const totalAmount = categories.reduce((total, cat) => total + cat.amount, 0);
+
   const checkedAmount = categories.reduce(
-    (total, cat) => (cat.checked ? total + cat.amount : total),
+    (total, category) => (category.checked ? total + category.amount : total),
     0
   );
   const remainingAmount = totalAmount - checkedAmount;
 
   return (
-    <div className="w-full bg-[#f4f4ff] rounded-xl shadow-md p-4 border border-black">
+    <div className="w-full bg-[#f4f4ff] rounded-xl shadow-md p-4 border border-black flex flex-col">
       <div className="bg-[#dadada] rounded-md py-2 px-4 text-center font-semibold text-black shadow">
         <div className="flex justify-center items-center gap-2 text-md">
           <FaRupeeSign />
@@ -31,13 +32,13 @@ const ExpenseTrack = () => {
       </div>
 
       <div className="mt-4 space-y-3 max-h-[300px] overflow-y-auto pr-1">
-        {categories.map((cat) => (
+        {categories.map((category) => (
           <ExpenseItem
-            key={cat._id}
-            id={cat._id}
-            title={cat.title}
-            amount={cat.amount}
-            checked={cat.checked}
+            key={category._id}
+            id={category._id}
+            title={category.title}
+            amount={category.amount}
+            checked={category.checked}
             onCheckboxChange={handleCheckboxChange}
           />
         ))}
