@@ -103,7 +103,7 @@ const LoginPage = () => {
                 </div>
               </div>
               {loginErr && (
-                <div className="text-red-500 text-sm mt-2">{loginErr}</div>
+                <p className="text-red-500 text-sm mt-2">{loginErr}</p>
               )}
 
               <div className="flex items-center justify-between">

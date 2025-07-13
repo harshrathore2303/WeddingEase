@@ -15,6 +15,11 @@ const guestSchema = new Schema(
         event: []
       },
     ],
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true }
 );

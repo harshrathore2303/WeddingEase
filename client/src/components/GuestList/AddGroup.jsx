@@ -1,45 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useGuestStore } from "../../store/UseGuestStore";
 
-const AddGroup = ({ setIsGroupOpen, addGroup }) => {
-  const [title, setTitle] = useState("");
+const AddGroup = ({ setIsGroupOpen }) => {
+  const { addGroup, clearError, error, fetchGuests } = useGuestStore();
 
-  const handleSave = async () => {
-    if (title.trim()) {
-      const success = await addGroup(title);
-      if (success) {
-        setTitle("");
-        setIsGroupOpen(false);
-      }
+  const [formData, setFormData] = useState({
+    title: "",
+  });
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    await addGroup(formData);
+    const { error: currentError } = useGuestStore.getState();
+    if (!currentError) {
+      await fetchGuests();
+      setIsGroupOpen(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-[rgb(0,0,0,0.5)] flex justify-center items-center z-20">
-      <div className="bg-white p-6 rounded-lg w-96 border-[1px] border-black">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <form onSubmit={handleSave} className="bg-[#fdfcf4] w-full max-w-sm rounded-xl shadow-xl border border-[#dcd6a3] p-6 relative">
+        <button
+          className="absolute top-2 right-3 text-xl font-bold text-[#3e3c1b] hover:text-red-500 transition"
+          onClick={() => {
+            setIsGroupOpen(false);
+            clearError();
+          }}
+        >
+          &times;
+        </button>
+
+        <h2 className="text-2xl font-bold text-center text-[#3e3c1b] mb-6">
+          Create New Group
+        </h2>
+
         <input
-          className="border-2 border-gray-600 rounded-md w-full mb-8 p-2"
-          placeholder="enter title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          className="w-full px-4 py-2 border border-[#ccc] rounded focus:ring-2 focus:ring-[#797531] outline-none mb-4"
+          placeholder="Enter group title"
+          value={formData.title}
+          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
         />
-        <div className="flex justify-end gap-4">
+
+        {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
+
+        <div className="flex justify-end">
           <button
-            className="px-4 py-2 bg-gray-200 rounded-full"
-            onClick={() => setIsGroupOpen(false)}
-          >
-            Cancel
-          </button>
-          <button
-            className="px-4 py-2 bg-blue-500 text-white rounded-full"
-            onClick={handleSave}
+            className="px-4 py-2 bg-[#3e3c1b] hover:bg-[#2e2c15] text-white rounded-full"
+            type="submit"
           >
             Save
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
 
 export default AddGroup;
-

@@ -1,45 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useGuestStore } from "../../store/UseGuestStore";
 
-const AddEvent = ({ setIsEventOpen, addEvent }) => {
+const AddEvent = ({ setIsEventOpen }) => {
+  const {addEvent, error, clearError} = useGuestStore();
   const [title, setTitle] = useState("");
 
-  const handleSave = async () => {
-    if (title.trim()) {
-      const success = await addEvent(title);
-      if (success) {
-        setTitle("");
-        setIsEventOpen(false);
-      }
+  const handleSave = async (e) => {
+    e.preventDefault();
+
+    await addEvent({title: title});
+    const {error: currentError} = useGuestStore.getState();
+    if (!currentError){
+      setIsEventOpen(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-[rgb(0,0,0,0.5)] flex justify-center items-center z-20">
-      <div className="bg-white p-6 rounded-lg w-96 border-[1px] border-black">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 font-serif">
+      <form onSubmit={handleSave} className="bg-[#fdfcf4] w-full max-w-sm rounded-xl shadow-xl border border-[#dcd6a3] p-6 relative">
+        <button
+          className="absolute top-2 right-3 text-xl font-bold text-[#3e3c1b] hover:text-red-500 transition"
+          onClick={() => {setIsEventOpen(false); clearError();}}
+        >
+          &times;
+        </button>
+        <h2 className="text-2xl font-bold text-center text-[#3e3c1b] mb-6">
+          Create New Event
+        </h2>
         <input
-          className="border-2 border-gray-600 rounded-md w-full mb-8 p-2"
-          placeholder="enter event title"
+          className="w-full px-4 py-2 border border-[#ccc] rounded focus:ring-2 focus:ring-[#797531] outline-none mb-6"
+          placeholder="Enter event title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          required
         />
-        <div className="flex justify-end gap-4">
+        {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
+        <div className="flex justify-end">
           <button
-            className="px-4 py-2 bg-gray-200 rounded-full"
-            onClick={() => setIsEventOpen(false)}
-          >
-            Cancel
-          </button>
-          <button
-            className="px-4 py-2 bg-blue-500 text-white rounded-full"
+          type="submit"
+            className="px-4 py-2 bg-[#3e3c1b] hover:bg-[#2e2c15] text-white rounded-full"
             onClick={handleSave}
           >
             Save
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
 
 export default AddEvent;
-

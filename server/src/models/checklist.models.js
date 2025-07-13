@@ -6,12 +6,27 @@ const checklistSchema = new Schema(
       type: String,
       required: true,
     },
-    tasks: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Task",
-      },
-    ],
+    checked: {
+      type: Boolean,
+      default: false,
+    },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    priority: {
+      type: String,
+      enum: ["low", "medium", "high"],
+      default: "low",
+    },
+    dueDate: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );

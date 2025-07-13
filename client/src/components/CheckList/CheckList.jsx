@@ -1,257 +1,126 @@
-import React, { useState, useEffect } from "react";
-import { IoIosAdd } from "react-icons/io";
-import { GiCancel } from "react-icons/gi";
-import Modal from "./Modal";
-import TaskItem from "./TaskItem";
+import React, { useEffect, useState } from "react";
+import { useChecklistStore } from "../../store/useCheckListStore";
+import { FaTrashAlt } from "react-icons/fa";
 import { IoIosAddCircleOutline } from "react-icons/io";
 
-const API_URL = 'http://localhost:3000';
-
 const CheckList = () => {
-  const [todos, setTodos] = useState([]);
-  const [selectedId, setSelectedId] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [editingChecklist, setEditingChecklist] = useState(null);
-  const [error, setError] = useState(null);
+  const {
+    checklists,
+    fetchChecklists,
+    addChecklist,
+    updateChecklist,
+    deleteChecklist,
+  } = useChecklistStore();
+
+  const [newTitle, setNewTitle] = useState("");
+  const [newPriority, setNewPriority] = useState("low");
+  const [newDueDate, setNewDueDate] = useState("");
 
   useEffect(() => {
     fetchChecklists();
   }, []);
 
-  const fetchChecklists = async () => {
-    try {
-      const response = await fetch(`${API_URL}/checklists`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      if (!response.ok) throw new Error('Failed to fetch checklists');
-      const checklists = await response.json();
-      setTodos(checklists);
-    } catch (err) {
-      setError("Failed to load checklists. Please try again.");
-    }
+  const handleAddChecklist = async () => {
+    if (!newTitle.trim()) return;
+    await addChecklist({
+      title: newTitle,
+      priority: newPriority,
+      dueDate: newDueDate,
+    });
+    setNewTitle("");
+    setNewPriority("low");
+    setNewDueDate("");
+    fetchChecklists();
   };
 
-  const handleShowTask = (id) => {
-    setSelectedId(id);
+  const toggleCheck = async (item) => {
+    await updateChecklist(item._id);
+    fetchChecklists();
   };
-
-  const handleCheckbox = async (todoId, taskId) => {
-    try {
-      const todo = todos.find(t => t._id === todoId);
-      const task = todo.tasks.find(t => t._id === taskId);
-      const updatedTask = { ...task, checked: !task.checked };
-      
-      const response = await fetch(`${API_URL}/checklists/${todoId}/tasks/${taskId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ checked: updatedTask.checked })
-      });
-      
-      if (!response.ok) throw new Error('Failed to update task');
-      
-      const updatedTodos = todos.map((t) => {
-        if (t._id === todoId) {
-          return {
-            ...t,
-            tasks: t.tasks.map((task) =>
-              task._id === taskId ? updatedTask : task
-            ),
-          };
-        }
-        return t;
-      });
-      setTodos(updatedTodos);
-    } catch (err) {
-      setError("Failed to update task. Please try again.");
-    }
+  
+  const handleDelete = async (id) => {
+    await deleteChecklist(id);
+    fetchChecklists();
   };
-
-  const handleDeleteTask = async (todoId, taskId) => {
-    try {
-      const response = await fetch(`${API_URL}/checklists/${todoId}/tasks/${taskId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      if (!response.ok) throw new Error('Failed to delete task');
-      const updatedTodos = todos.map((todo) => {
-        if (todo._id === todoId) {
-          return {
-            ...todo,
-            tasks: todo.tasks.filter((task) => task._id !== taskId),
-          };
-        }
-        return todo;
-      });
-      setTodos(updatedTodos);
-    } catch (err) {
-      setError("Failed to delete task. Please try again.");
-    }
-  };
-
-  const handleAddTodo = async (newTodo) => {
-    try {
-      const response = await fetch(`${API_URL}/checklists`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(newTodo)
-      });
-      if (!response.ok) throw new Error('Failed to create checklist');
-      const createdChecklist = await response.json();
-      setTodos([...todos, createdChecklist]);
-    } catch (err) {
-      setError("Failed to create checklist. Please try again.");
-    }
-  };
-
-  const handleAddTaskToChecklist = async (checklistId, newTasks) => {
-    try {
-      const addedTasks = await Promise.all(newTasks.map(async task => {
-        const response = await fetch(`${API_URL}/checklists/${checklistId}/tasks`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          },
-          body: JSON.stringify(task)
-        });
-        if (!response.ok) throw new Error('Failed to add task');
-        return response.json();
-      }));
-      const updatedTodos = todos.map((todo) => {
-        if (todo._id === checklistId) {
-          return {
-            ...todo,
-            tasks: [...todo.tasks, ...addedTasks],
-          };
-        }
-        return todo;
-      });
-      setTodos(updatedTodos);
-    } catch (err) {
-      setError("Failed to add tasks. Please try again.");
-    }
-  };
-
-  const handleDeleteTodo = async (todoId) => {
-    try {
-      const response = await fetch(`${API_URL}/checklists/${todoId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      if (!response.ok) throw new Error('Failed to delete checklist');
-      const updatedTodos = todos.filter((todo) => todo._id !== todoId);
-      setTodos(updatedTodos);
-      if (selectedId === todoId) {
-        setSelectedId(null);
-      }
-    } catch (err) {
-      setError("Failed to delete checklist. Please try again.");
-    }
-  };
-
-  const selectedTodo = todos.find((todo) => todo._id === selectedId);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="font-serif p-6 bg-[#fdfcf4] rounded-xl shadow border border-[#e4e1b5]">
+      <h2 className="text-2xl font-bold text-[#3e3c1b] mb-4">
+        Wedding Checklist
+      </h2>
 
-      {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">{error}</div>}
+      <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 mb-6">
+        <input
+          type="text"
+          placeholder="Checklist title"
+          className="px-4 py-2 border border-[#ccc] rounded outline-none"
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+        />
 
-      <div className="flex flex-wrap gap-4 mb-8">
-        {todos.map((todo) => (
-          <div key={todo._id} className="flex items-center">
-            <button
-              className={`py-2 px-5 rounded-full flex items-center transition duration-150 ease-in-out ${
-                selectedId === todo._id
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-              }`}
-              onClick={() => handleShowTask(todo._id)}
-            >
-              {todo.title}
-              <button
-                className="ml-2 text-red-500 hover:text-red-700"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDeleteTodo(todo._id);
-                }}
-              >
-                <GiCancel size={20} />
-              </button>
-            </button>
-          </div>
-        ))}
-
-        <button
-          className="flex flex-row items-center justify-center text-[#AD563B] transition duration-200 hover:scale-105 font-bold p-2 "
-          onClick={() => setIsOpen(true)}
+        <select
+          value={newPriority}
+          onChange={(e) => setNewPriority(e.target.value)}
+          className="px-4 py-2 border border-[#ccc] rounded outline-none"
         >
-          <IoIosAddCircleOutline size={25} className='mx-1' /> New Checklist
-        </button>
+          <option value="low">Low Priority</option>
+          <option value="medium">Medium Priority</option>
+          <option value="high">High Priority</option>
+        </select>
+
+        <input
+          type="date"
+          value={newDueDate}
+          onChange={(e) => setNewDueDate(e.target.value)}
+          className="px-4 py-2 border border-[#ccc] rounded outline-none"
+        />
       </div>
 
-      {selectedTodo && (
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-2xl font-bold mb-4">{selectedTodo.title}</h2>
-          <button
-            className="flex flex-row items-center justify-center text-[#AD563B] transition duration-200 hover:scale-105 font-bold p-2 rounded-full border-2 border-gray-700"
-            onClick={() => {
-              setEditingChecklist(selectedTodo);
-              setIsOpen(true);
-            }}
-          > 
-            <IoIosAddCircleOutline size={25} className='mx-1' />
-            Add Task to Checklist
-          </button>
-          <div className="space-y-4">
-            <h3 className="text-xl font-medium text-gray-700">Pending Tasks</h3>
-            {selectedTodo.tasks.filter(task => !task.checked).map((task) => (
-              <TaskItem
-                key={task._id}
-                task={task}
-                onCheckboxChange={() => handleCheckbox(selectedTodo._id, task._id)}
-                onDelete={() => handleDeleteTask(selectedTodo._id, task._id)}
-              />
-            ))}
-          </div>
-          <div className="space-y-4 mt-8">
-            <h3 className="text-xl font-medium text-gray-700">Completed Tasks</h3>
-            {selectedTodo.tasks.filter(task => task.checked).map((task) => (
-              <TaskItem
-                key={task._id}
-                task={task}
-                onCheckboxChange={() => handleCheckbox(selectedTodo._id, task._id)}
-                onDelete={() => handleDeleteTask(selectedTodo._id, task._id)}
-              />
-            ))}
-          </div>
-        </div>
-      )}
+      <button
+        onClick={handleAddChecklist}
+        className="bg-[#3e3c1b] hover:bg-[#2e2c15] text-white px-6 py-2 rounded mb-6"
+      >
+        <IoIosAddCircleOutline className="inline mr-1" />
+        Add Task
+      </button>
 
-      {isOpen && (
-        <Modal
-          onSave={editingChecklist ? handleAddTaskToChecklist : handleAddTodo}
-          onClose={() => {
-            setIsOpen(false);
-            setEditingChecklist(null);
-          }}
-          existingChecklist={editingChecklist}
-        />
-      )}
+      <ul className="space-y-4">
+        {checklists.map((item) => (
+          <li
+            key={item._id}
+            className="flex justify-between items-start bg-white border border-[#dcd6a3] rounded-lg px-4 py-3"
+          >
+            <label className="flex items-start gap-3 cursor-pointer text-[#3e3c1b] w-full">
+              <input
+                type="checkbox"
+                checked={item.checked}
+                onChange={() => toggleCheck(item)}
+                className="mt-1 accent-[#3e3c1b]"
+              />
+              <div className="flex flex-col">
+                <span className={item.checked ? "line-through" : ""}>
+                  {item.title}
+                </span>
+                <span className="text-sm text-gray-500">
+                  Priority: {item.priority}, Due:{" "}
+                  {item.dueDate
+                    ? new Date(item.dueDate).toLocaleDateString()
+                    : "N/A"}
+                </span>
+              </div>
+            </label>
+            <button
+              onClick={() => handleDelete(item._id)}
+              className="text-red-600 hover:text-red-800 ml-3"
+              title="Delete"
+            >
+              <FaTrashAlt size={16} />
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
 
 export default CheckList;
-

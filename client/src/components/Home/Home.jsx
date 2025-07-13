@@ -54,15 +54,12 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Code for slider */}
       <Slider slides={slides} label={"home"}/>
 
-      {/* Code for features */}
       <div className="w-full mt-8 px-auto flex justify-center">
         <img src="https://res.cloudinary.com/dpsgxzjzw/image/upload/v1751630728/Group_48_frsazp.png" />
       </div>
 
-      {/* Checkout gallaries */}
       <div className="w-full py-4 px-auto flex items-center flex-col">
         <CustomButton
           title="Checkout our Galleries"
@@ -77,7 +74,6 @@ export default function Home() {
         <img src="https://res.cloudinary.com/dpsgxzjzw/image/upload/v1751630485/image_lf8cci.png" className="w-full mt-5" />
       </div>
 
-      {/* code for reviews */}
       <div className="flex w-full items-center flex-col py-5">
         <h2 className="text-2xl font-semibold">Our Reviews</h2>
         <q className="text-xl py-2">
@@ -86,7 +82,6 @@ export default function Home() {
         </q>
       </div>
 
-      {/* card for feedback */}
       <div className="flex justify-center">
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-6">
           {feedbacks.map((item, index) => (
@@ -95,7 +90,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* contact us form */}
       <div className="bg-[#F6F6F6] w-full max-w-max mx-auto my-5 flex items-center justify-center flex-col p-8 shadow-lg">
         <h1 className="text-2xl">Contact Us</h1>
         <input

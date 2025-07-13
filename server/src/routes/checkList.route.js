@@ -1,19 +1,17 @@
-import { Router } from "express";
-import { verifyJWT } from "../middlewares/verifyJWT.js";
+import express from "express";
 import {
-  addCategory,
-  addTask,
-  getAllChecks,
-  deleteCategory,
-  deleteTask,
+  getChecklists,
+  createChecklist,
+  updateChecklist,
+  deleteChecklist,
 } from "../controllers/checklist.controller.js";
+import { verifyJWT } from "../middlewares/verifyJWT.js";
 
-const router = Router();
+const router = express.Router();
 
-router.post("/checkList/addCategory", verifyJWT, addCategory);
-router.post("/checkList/:categoryId/addTask", verifyJWT, addTask);
-router.get("/checkList", verifyJWT, getAllChecks);
-router.delete("/checkList/:categoryId", verifyJWT, deleteCategory);
-router.delete("/checkList/:categoryId/:taskId", deleteTask);
+router.get("/lists", verifyJWT, getChecklists);
+router.post("/list", verifyJWT, createChecklist);
+router.put("/list/:id", verifyJWT, updateChecklist);
+router.delete("/list/:id", verifyJWT, deleteChecklist);
 
 export default router;
