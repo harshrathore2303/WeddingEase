@@ -11,14 +11,12 @@ const BudgetModal = ({ setIsOpen }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formData)
     if (formData.title.trim() === "" || formData.amount === 0) {
       alert("No empty field allowed");
       return;
     }
 
     await addBudgetItem(formData);
-
     const { error: currentError } = useBudgetStore.getState();
     if (!currentError) {
       setIsOpen(false);
@@ -28,9 +26,16 @@ const BudgetModal = ({ setIsOpen }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-      <div className="bg-[#fdfcf4] w-full max-w-md p-6 rounded-xl shadow-lg font-serif border border-gray-300">
-        <h2 className="text-xl font-semibold text-center text-[#3e3c1b] mb-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 font-serif">
+      <div className="bg-[#fdfcf4] w-full max-w-md rounded-xl shadow-xl border border-[#dcd6a3] p-6 relative">
+        <button
+          className="absolute top-2 right-3 text-xl font-bold text-[#3e3c1b] hover:text-red-500 transition"
+          onClick={() => setIsOpen(false)}
+        >
+          &times;
+        </button>
+
+        <h2 className="text-2xl font-bold text-center text-[#3e3c1b] mb-6">
           Add Budget Category
         </h2>
 
@@ -38,14 +43,14 @@ const BudgetModal = ({ setIsOpen }) => {
           <div>
             <label
               htmlFor="title"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-[#3e3c1b] mb-1"
             >
               Title
             </label>
             <input
               type="text"
               id="title"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-[#AD563B]"
+              className="w-full px-4 py-2 border border-[#ccc] rounded focus:ring-2 focus:ring-[#AD563B] outline-none"
               value={formData.title}
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
@@ -57,7 +62,7 @@ const BudgetModal = ({ setIsOpen }) => {
           <div>
             <label
               htmlFor="amount"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm font-medium text-[#3e3c1b] mb-1"
             >
               Amount
             </label>
@@ -66,7 +71,7 @@ const BudgetModal = ({ setIsOpen }) => {
               id="amount"
               step="0.01"
               min="0"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-[#AD563B]"
+              className="w-full px-4 py-2 border border-[#ccc] rounded focus:ring-2 focus:ring-[#AD563B] outline-none"
               value={formData.amount}
               onChange={(e) =>
                 setFormData({ ...formData, amount: Number(e.target.value) })
@@ -74,8 +79,10 @@ const BudgetModal = ({ setIsOpen }) => {
               required
             />
           </div>
+
           {error && <p className="text-red-600 text-sm mt-1">{error}</p>}
-          <div className="flex justify-end gap-3 pt-2">
+
+          <div className="flex justify-end gap-3 pt-3">
             <button
               type="button"
               onClick={() => setIsOpen(false)}

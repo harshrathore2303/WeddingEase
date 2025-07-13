@@ -15,36 +15,41 @@ const ExpenseTrack = () => {
   };
 
   const totalAmount = categories.reduce((total, cat) => total + cat.amount, 0);
-
   const checkedAmount = categories.reduce(
-    (total, category) => (category.checked ? total + category.amount : total),
+    (total, cat) => (cat.checked ? total + cat.amount : total),
     0
   );
   const remainingAmount = totalAmount - checkedAmount;
 
   return (
-    <div className="w-full bg-[#f4f4ff] rounded-xl shadow-md p-4 border border-black flex flex-col">
-      <div className="bg-[#dadada] rounded-md py-2 px-4 text-center font-semibold text-black shadow">
+    <div className="w-full bg-[#fdfcf4] border border-[#dad8c7] rounded-2xl shadow-md p-5 font-serif flex flex-col">
+      <div className="bg-[#eae8dc] rounded-md py-2 px-4 text-center font-semibold text-[#3e3c1b] shadow-sm border border-[#cbc8b3]">
         <div className="flex justify-center items-center gap-2 text-md">
-          <FaRupeeSign />
+          <FaRupeeSign className="text-[#3e3c1b]" />
           <span>Total Expense Tracker</span>
         </div>
       </div>
 
-      <div className="mt-4 space-y-3 max-h-[300px] overflow-y-auto pr-1">
-        {categories.map((category) => (
-          <ExpenseItem
-            key={category._id}
-            id={category._id}
-            title={category.title}
-            amount={category.amount}
-            checked={category.checked}
-            onCheckboxChange={handleCheckboxChange}
-          />
-        ))}
+      <div className="mt-4 space-y-3 max-h-[280px] overflow-y-auto pr-1 flex-grow">
+        {categories.length === 0 ? (
+          <p className="text-sm text-center italic text-gray-500 mt-2">
+            No budget categories found.
+          </p>
+        ) : (
+          categories.map((cat) => (
+            <ExpenseItem
+              key={cat._id}
+              id={cat._id}
+              title={cat.title}
+              amount={cat.amount}
+              checked={cat.checked}
+              onCheckboxChange={handleCheckboxChange}
+            />
+          ))
+        )}
       </div>
 
-      <div className="mt-6 border-t pt-4 space-y-2 text-sm font-medium">
+      <div className="mt-6 border-t border-[#ccc] pt-4 space-y-2 text-sm font-medium text-[#3e3c1b]">
         <div className="flex justify-between">
           <span>Total Budget</span>
           <span>₹{totalAmount.toFixed(2)}</span>

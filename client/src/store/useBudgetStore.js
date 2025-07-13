@@ -10,7 +10,7 @@ const useBudgetStore = create((set) => ({
     set({ isLoading: true });
     try {
       const response = await axiosInstance.get('/budget');
-      set({ categories: response.data, isLoading: false });
+      set({ categories: response.data.data || [], isLoading: false });
     } catch (error) {
       set({ error: error?.response?.data?.message || 'Failed to fetch budget items', isLoading: false });
       console.error('Error fetching budget items:', error);
@@ -21,7 +21,6 @@ const useBudgetStore = create((set) => ({
     set({isLoading: true});
     try {
       const res = await axiosInstance.post('/budget', formData);
-      
     } catch (error) {
       set({error: error?.response?.data?.message || "Failed to add"});
     } finally {

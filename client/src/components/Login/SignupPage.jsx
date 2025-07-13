@@ -205,7 +205,7 @@ const SignupPage = () => {
               </div>
 
               {signUpErr && (
-                <div className="text-red-500 text-sm mt-2">{signUpErr}</div>
+                <p className="text-red-500 text-sm mt-2">{signUpErr}</p>
               )}
               <div className="flex items-center justify-between">
                 <button

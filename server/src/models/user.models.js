@@ -38,42 +38,6 @@ const userSchema = new Schema(
       enum: ["user", "admin"],
       default: "user",
     },
-    services: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Service",
-      },
-    ],
-    guestList: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Guest",
-      },
-    ],
-    events: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Event",
-      },
-    ],
-    budget: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Budget",
-      },
-    ],
-    checkList: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Checklist",
-      },
-    ],
-    wishList: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Service",
-      },
-    ],
   },
   { timestamps: true }
 );
