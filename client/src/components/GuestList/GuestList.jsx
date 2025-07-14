@@ -18,7 +18,6 @@ const GuestList = () => {
 
   return (
     <div className="text-[#3e3c1b]">
-      <h1 className="text-3xl font-bold mb-4">Guest Manager</h1>
 
       <div className="flex justify-start gap-4 mb-6">
         <CustomButton

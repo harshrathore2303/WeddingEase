@@ -54,7 +54,7 @@ const PlanningTools = () => {
       {activeTab === "GuestList" && (
         <div className="bg-white p-6 rounded-xl shadow-lg border border-[#e0ddc5]">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">Guest List Manager</h2>
+            <h2 className="text-xl font-semibold">Guest Manager</h2>
             <span className="text-sm text-gray-600">
               Total Guests:{" "}
               <strong>
@@ -71,7 +71,7 @@ const PlanningTools = () => {
 
       {activeTab === "CheckList" && (
         <div className="bg-white p-6 rounded-xl shadow-lg border border-[#e0ddc5]">
-          <h2 className="text-xl font-semibold mb-4">Pre-Wedding Checklist</h2>
+          <h2 className="text-xl font-semibold mb-4">Wedding Checklist</h2>
           <CheckList />
         </div>
       )}

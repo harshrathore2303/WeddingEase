@@ -1,8 +1,10 @@
 import React from "react";
 import { MdDelete, MdMarkEmailRead } from "react-icons/md";
+import useNotificationStore from "../../store/useNotificationStore";
 
 const Notifications = () => {
-  // Dummy data (you can later fetch this from your store/API)
+  // const {} = useNotificationStore();
+
   const dummyNotifications = [
     {
       _id: 1,
