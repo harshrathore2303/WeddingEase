@@ -27,9 +27,10 @@ This project demonstrates a scalable service-based architecture with search, fil
 * 📃 Paginated service listing
 * 📷 Upload images using Cloudinary
 * 👨‍💼 Admin panel to manage services
-* * 🗓️ Tools to plan weddings and events *(coming soon)*
+* 🗓️ Tools to plan weddings budget, guests and checklist
 * 💬 User reviews & ratings *(coming soon)*
-* 📩 Email + real-time notifications *(planned)*
+* 📩 Payment Gateway for booking *(comming soon)*
+* 📩 real-time notifications *(planned)*
 
 ---
 
