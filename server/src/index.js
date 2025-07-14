@@ -1,17 +1,18 @@
-import dotenv from 'dotenv'
-import {app} from './app.js'
-import connectDB from './db/index.js'
+import dotenv from "dotenv";
+import { app } from "./app.js";
+import connectDB from "./db/index.js";
+import "./utils/cron.js";
 
 dotenv.config({
-    path: "./.env"
-})
+  path: "./.env",
+});
 
 connectDB()
-.then(() => {
+  .then(() => {
     app.listen(process.env.PORT, () => {
-        console.log("Connection is established on port: ", process.env.PORT);
+      console.log("Connection is established on port: ", process.env.PORT);
     });
-})
-.catch((error) => {
+  })
+  .catch((error) => {
     console.log("Connection Error !! ", error);
-})
+  });

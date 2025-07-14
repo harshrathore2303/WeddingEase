@@ -40,12 +40,6 @@ const Sidebar = () => {
           </NavLink>
           <div className="border-t border-[#797531]"></div>
 
-          <NavLink to="notifications" className={navLinkClass}>
-            Notifications
-          </NavLink>
-          <div className="border-t border-[#797531]"></div>
-
-          {/* Logout */}
           <NavLink
             to="/"
             onClick={logout}

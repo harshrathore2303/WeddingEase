@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import {
   FaHome,
-  FaBookmark,
+  FaBell ,
   FaTools,
-  FaSignOutAlt,
   FaUserAlt,
 } from "react-icons/fa";
 import { IoPeople } from "react-icons/io5";
@@ -110,7 +109,7 @@ export default function NavBar() {
               </div>
             )}
           </div>
-          <FaBookmark
+          <FaBell 
             size={25}
             className="mx-2 cursor-pointer hover:ease-out transition hover:scale-110 duration-100"
           />
@@ -189,7 +188,7 @@ export default function NavBar() {
               </div>
             )}
           </div>
-          <FaBookmark size={20} className="mx-2 cursor-pointer" />
+          <FaBell  size={20} className="mx-2 cursor-pointer" />
         </div>
       </nav>
     </>

@@ -45,9 +45,6 @@ const CheckList = () => {
 
   return (
     <div className="font-serif p-6 bg-[#fdfcf4] rounded-xl shadow border border-[#e4e1b5]">
-      <h2 className="text-2xl font-bold text-[#3e3c1b] mb-4">
-        Wedding Checklist
-      </h2>
 
       <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 mb-6">
         <input

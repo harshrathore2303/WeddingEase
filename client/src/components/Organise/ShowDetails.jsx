@@ -6,15 +6,50 @@ import { FaBookmark, FaRegBookmark } from "react-icons/fa";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useServiceStore } from "../../store/UseServiceStore";
+import useBookingStore from "../../store/useBookingStore";
 
 const ShowDetails = () => {
   const navigate = useNavigate();
   const { getServiceById, isLoading, service } = useServiceStore();
+  const { bookService, conflicts, getConflicts } = useBookingStore();
   const { id } = useParams();
+
+
+  const handleBooking = () => {
+    if (!date || !Array.isArray(date) || date.length !== 2) {
+      return alert("Please select a date range.");
+    }
+
+    const startDate = date[0];
+    const endDate = date[1];
+
+    if (date[0] > date[1]){
+      startDate = date[1];
+      endDate = date[0];
+    }
+
+    bookService({
+      serviceId: id,
+      startDate: startDate,
+      endDate: endDate,
+      purpose: "General booking",
+    });
+    navigate(`/confirmed?start=${date[0]}&end=${date[1]}`)
+  };
+
+  const isDateConflict = ({ date }) => {
+    return conflicts.some(({ startDate, endDate }) => {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      return date >= start && date <= end;
+    });
+  };
+
 
   useEffect(() => {
     getServiceById(id);
-  }, [id, getServiceById]);
+    getConflicts(id);
+  }, [id]);
 
   const [mark, setMark] = useState(false);
   const [date, setDate] = useState(null);
@@ -23,9 +58,7 @@ const ShowDetails = () => {
 
   return (
     <div className="px-4 sm:px-6 md:px-10 lg:px-32 py-8 font-serif">
-
       <div className="flex flex-col lg:flex-row gap-8">
-
         <div className="w-full lg:w-1/2">
           <Slider slides={service.imageSet} />
         </div>
@@ -55,13 +88,14 @@ const ShowDetails = () => {
                 value={date}
                 onChange={(s) => setDate(s)}
                 selectRange={true}
+                tileDisabled={isDateConflict}
               />
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 mt-4">
             <button
-              onClick={() => navigate(`/confirmed?start=${date[0]}&end=${date[1]}`)}
+              onClick={handleBooking}
               className="bg-base-but hover:bg-base-butHover text-white w-full sm:w-auto px-6 py-2 rounded-md text-sm font-semibold transition"
             >
               Book Now
