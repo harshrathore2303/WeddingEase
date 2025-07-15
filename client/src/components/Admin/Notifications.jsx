@@ -1,36 +1,35 @@
 import React from "react";
 import { MdDelete, MdMarkEmailRead } from "react-icons/md";
 import useNotificationStore from "../../store/useNotificationStore";
+import { useEffect } from "react";
 
 const Notifications = () => {
-  // const {} = useNotificationStore();
+  const {fetchNotifications, notifications, deleteNotification, updateNotification} = useNotificationStore();
 
-  const dummyNotifications = [
-    {
-      _id: 1,
-      message: "New user registered on your platform.",
-      isRead: false,
-      createdAt: new Date(),
-    },
-    {
-      _id: 2,
-      message: "Service 'Royal Hall' has been booked.",
-      isRead: true,
-      createdAt: new Date(),
-    },
-  ];
+  useEffect(() => {
+    fetchNotifications();
+  }, [])
+
+  const handleRead = async (id) => {
+    await updateNotification(id);
+    fetchNotifications();
+  }
+  const handleDelete = async (id) => {
+    await deleteNotification(id);
+    fetchNotifications();
+  }
 
   return (
-    <div className="md:ml-64 ml-32 p-4 min-h-screen bg-[#fdfcf4] font-serif">
+    <div className="px-4 md:px-16 lg:px-36 py-6 font-serif">
       <h2 className="text-2xl font-semibold mb-6 text-[#3e3c1b]">
         Notifications
       </h2>
 
-      {dummyNotifications.length === 0 ? (
+      {notifications.length === 0 ? (
         <div className="text-center text-gray-500 mt-20">No notifications yet.</div>
       ) : (
         <div className="space-y-4">
-          {dummyNotifications.map((item) => (
+          {notifications.map((item) => (
             <div
               key={item._id}
               className={`flex justify-between items-center p-4 rounded-lg border ${
@@ -49,6 +48,7 @@ const Notifications = () => {
                   <button
                     title="Mark as Read"
                     className="text-[#3e3c1b] hover:text-green-600"
+                    onClick={() => handleRead(item._id)}
                   >
                     <MdMarkEmailRead size={20} />
                   </button>
@@ -56,6 +56,7 @@ const Notifications = () => {
                 <button
                   title="Delete"
                   className="text-red-600 hover:text-red-800"
+                  onClick={() => handleDelete(item._id)}
                 >
                   <MdDelete size={20} />
                 </button>
