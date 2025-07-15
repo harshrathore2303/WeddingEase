@@ -6,18 +6,42 @@ const useNotificationStore = create((set) => ({
   isLoading: false,
   error: null,
 
-    fetchNotificationByAdmin: async () => {
-        set({isLoading:true})
-      try {
-        const res = await axiosInstance.get("/notifications")
-        
-      } catch (error) {
-        console.log("Error from fetch notification in useNotificationStore", error);
-        set({error: error?.response?.data?.message});
-      }  finally {
-set({isLoading:false})
-      }
-    },
+  fetchNotifications: async () => {
+    set({ isLoading: true });
+    try {
+      const res = await axiosInstance.get("/notifications")
+      set({notifications: res.data.data});
+    } catch (error) {
+      console.log("Error in fetch notification in useNotificationStore",error);
+      set({ error: error?.response?.data?.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  updateNotification: async (id) => {
+    set({isLoading: true});
+    try {
+      await axiosInstance.patch(`/notification/${id}`);
+    } catch (error) {
+      console.log("Error in update notification in useNotificationStore", error);
+      set({error: error?.response?.data?.message});
+    } finally {
+      set({isLoading: false});
+    }
+  },
+
+  deleteNotification: async (id) => {
+    set({isLoading: true});
+    try {
+      await axiosInstance.delete(`/notification/${id}`);
+    } catch (error) {
+      console.log("Error in update notification in useNotificationStore", error);
+      set({error: error?.response?.data?.message});
+    } finally {
+      set({isLoading: false});
+    }
+  },
 
   clearError: () => {
     set({ error: null });

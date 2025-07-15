@@ -15,6 +15,10 @@ const notificationSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Booking",
     },
+    serviceId: {
+      type: Schema.Types.ObjectId,
+      ref: "Service",
+    },
     message: {
       type: String,
       required: true,
@@ -27,10 +31,6 @@ const notificationSchema = new Schema(
     isRead: {
       type: Boolean,
       default: false,
-    },
-    serviceId: {
-      type: Schema.Types.ObjectId,
-      ref: "Service",
     },
   },
   { timestamps: true }

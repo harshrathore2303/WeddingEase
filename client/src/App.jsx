@@ -13,6 +13,7 @@ import { useAuthStore } from "./store/UseAuthStore";
 import { LuLoader } from "react-icons/lu";
 import ConfirmPage from "./components/Booking/ConfirmPage";
 import Dashboard from "./components/Admin/Dashboard";
+import Notifications from "./components/Admin/Notifications";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth, isAdmin } = useAuthStore();
@@ -50,6 +51,10 @@ function App() {
         <Route
           path="/signup"
           element={!authUser ? <SignupPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/notifications"
+          element={<Notifications />}
         />
         {!isAdmin && (
           <>

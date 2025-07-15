@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  FaHome,
-  FaBell ,
-  FaTools,
-  FaUserAlt,
-} from "react-icons/fa";
+import { FaHome, FaBell, FaTools, FaUserAlt } from "react-icons/fa";
 import { IoPeople } from "react-icons/io5";
 import { HiDotsVertical } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
@@ -109,10 +104,19 @@ export default function NavBar() {
               </div>
             )}
           </div>
-          <FaBell 
-            size={25}
-            className="mx-2 cursor-pointer hover:ease-out transition hover:scale-110 duration-100"
-          />
+          <NavLink
+            to="/notifications"
+            className={({ isActive }) =>
+              `hover:underline ${
+                isActive ? "text-blue-700 underline" : ""
+              } underline-offset-8`
+            }
+          > 
+            <FaBell
+              size={25}
+              className="mx-2 cursor-pointer hover:ease-out transition hover:scale-110 duration-100"
+            />
+          </NavLink>
         </div>
 
         <div className="md:hidden items-center flex space-x-4">
@@ -188,7 +192,19 @@ export default function NavBar() {
               </div>
             )}
           </div>
-          <FaBell  size={20} className="mx-2 cursor-pointer" />
+          <NavLink
+            to="/notifications"
+            className={({ isActive }) =>
+              `hover:underline ${
+                isActive ? "text-blue-700 underline" : ""
+              } underline-offset-8`
+            }
+          >
+            <FaBell
+              size={20}
+              className="mx-2 cursor-pointer hover:ease-out transition hover:scale-110 duration-100"
+            />
+          </NavLink>
         </div>
       </nav>
     </>
