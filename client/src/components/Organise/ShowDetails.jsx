@@ -16,10 +16,14 @@ const ShowDetails = () => {
   const { bookService, conflicts, getConflicts } = useBookingStore();
   const { countNotifications } = useNotificationStore();
   const { id } = useParams();
-  const { authUser } = useAuthStore();
+  const { authUser, checkAuth } = useAuthStore();
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
 
   const handleBooking = async () => {
-    if (authUser){
+    if (!authUser){
       navigate("/login");
     }
     if (!date || !Array.isArray(date) || date.length !== 2) {

@@ -16,7 +16,6 @@ const useAuthStore = create((set) => ({
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/checkAuth");
-      // console.log(res.data);
       set({ authUser: res.data, isAdmin: res.data.role === "admin" });
     } catch (error) {
       set({ authUser: null, isAdmin: false });
@@ -30,7 +29,6 @@ const useAuthStore = create((set) => ({
     set({ isSigningUp: true });
     try {
       const res = await axiosInstance.post("/signup", data);
-      // console.log(res)
       set({ authUser: res.data, isAdmin: res.data.role === "admin" });
     } catch (error) {
       set({ signUpErr: error?.response?.data?.message });
