@@ -6,6 +6,7 @@ const useBookingStore = create((set) => ({
   adminBookings: [],
   conflicts: [],
   isLoading: false,
+  isBooking:false,
   error: null,
   count: 0,
 
@@ -23,14 +24,14 @@ const useBookingStore = create((set) => ({
   },
 
   bookService: async (formData) => {
-    set({ isLoading: true });
+    set({ isBooking: true });
     try {
       const res = await axiosInstance.post("/booking", formData);
     } catch (error) {
       console.log("Error from book service in useBookingStore", error);
       set({ error: error?.response?.data?.message });
     } finally {
-      set({ isLoading: false });
+      set({ isBooking: false });
     }
   },
 

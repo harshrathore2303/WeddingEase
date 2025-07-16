@@ -9,11 +9,12 @@ import { useServiceStore } from "../../store/UseServiceStore";
 import useBookingStore from "../../store/useBookingStore";
 import useNotificationStore from "../../store/useNotificationStore";
 import { useAuthStore } from "../../store/UseAuthStore";
+import { LuLoader } from "react-icons/lu";
 
 const ShowDetails = () => {
   const navigate = useNavigate();
   const { getServiceById, isLoading, service } = useServiceStore();
-  const { bookService, conflicts, getConflicts } = useBookingStore();
+  const { bookService, conflicts, getConflicts, isBooking } = useBookingStore();
   const { countNotifications } = useNotificationStore();
   const { id } = useParams();
   const { authUser, checkAuth } = useAuthStore();
@@ -23,7 +24,7 @@ const ShowDetails = () => {
   }, []);
 
   const handleBooking = async () => {
-    if (!authUser){
+    if (!authUser) {
       navigate("/login");
       return;
     }
@@ -109,7 +110,13 @@ const ShowDetails = () => {
               onClick={handleBooking}
               className="bg-base-but hover:bg-base-butHover text-white w-full sm:w-auto px-6 py-2 rounded-md text-sm font-semibold transition"
             >
-              Book Now
+              {isBooking ? (
+                <>
+                  <LuLoader className="h-5 w-5 animate-spin" />
+                </>
+              ) : (
+                "Book Now"
+              )}
             </button>
             <button
               onClick={() => setMark((prev) => !prev)}

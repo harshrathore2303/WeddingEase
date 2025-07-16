@@ -7,14 +7,11 @@ const useBudgetStore = create((set) => ({
   error: null,
 
   fetchBudgetItems: async () => {
-    set({ isLoading: true });
     try {
       const response = await axiosInstance.get('/budget');
       set({ categories: response.data.data});
     } catch (error) {
       
-    } finally {
-      set({isLoading: false})
     }
   },
 

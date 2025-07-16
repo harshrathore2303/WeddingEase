@@ -32,7 +32,7 @@ const CheckList = () => {
       priority: newPriority,
       dueDate: newDueDate,
     });
-    const { error: currentError } = useGuestStore.getState();
+    const { error: currentError } = useChecklistStore.getState();
     if (!currentError) {
       clearError();
       setNewTitle("");
@@ -44,9 +44,8 @@ const CheckList = () => {
 
   const toggleCheck = async (item) => {
     await updateChecklist(item._id);
-    const { error: currentError } = useGuestStore.getState();
+    const { error: currentError } = useChecklistStore.getState();
     if (!currentError) {
-      setIsGuestOpen(false);
       clearError();
     }
     await fetchChecklists();
@@ -54,9 +53,8 @@ const CheckList = () => {
 
   const handleDelete = async (id) => {
     await deleteChecklist(id);
-    const { error: currentError } = useGuestStore.getState();
+    const { error: currentError } = useChecklistStore.getState();
     if (!currentError) {
-      setIsGuestOpen(false);
       clearError();
     }
     await fetchChecklists();

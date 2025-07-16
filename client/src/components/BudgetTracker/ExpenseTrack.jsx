@@ -8,10 +8,11 @@ const ExpenseTrack = () => {
 
   useEffect(() => {
     fetchBudgetItems();
-  }, [fetchBudgetItems]);
+  }, []);
 
   const handleCheckboxChange = async (id, checked) => {
     await updateBudgetItem(id, checked);
+    await fetchBudgetItems();
   };
 
   const totalAmount = categories.reduce((total, cat) => total + cat.amount, 0);

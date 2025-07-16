@@ -7,14 +7,11 @@ export const useChecklistStore = create((set, get) => ({
   error: null,
 
   fetchChecklists: async () => {
-    set({ isLoading: true });
     try {
       const res = await axiosInstance.get("/lists");
       set({ checklists: res.data.data });
     } catch (error) {
       set({ error: error?.response?.data?.message || "Failed to fetch checklists" });
-    } finally {
-      set({ isLoading: false });
     }
   },
 

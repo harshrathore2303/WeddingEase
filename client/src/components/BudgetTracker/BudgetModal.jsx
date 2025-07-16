@@ -3,7 +3,7 @@ import useBudgetStore from "../../store/useBudgetStore";
 import { LuLoader } from "react-icons/lu";
 
 const BudgetModal = ({ setIsOpen }) => {
-  const { addBudgetItem, error, clearError, fetchBudgetItems, isLoading } = useBudgetStore();
+  const { addBudgetItem, error, clearError, isLoading } = useBudgetStore();
   const [formData, setFormData] = useState({
     title: "",
     amount: 0,
