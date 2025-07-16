@@ -12,7 +12,6 @@ const ExpenseTrack = () => {
 
   const handleCheckboxChange = async (id, checked) => {
     await updateBudgetItem(id, checked);
-    fetchBudgetItems();
   };
 
   const totalAmount = categories.reduce((total, cat) => total + cat.amount, 0);

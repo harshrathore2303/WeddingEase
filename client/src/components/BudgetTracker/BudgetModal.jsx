@@ -20,7 +20,6 @@ const BudgetModal = ({ setIsOpen }) => {
     await addBudgetItem(formData);
     const { error: currentError } = useBudgetStore.getState();
     if (!currentError) {
-      fetchBudgetItems();
       setIsOpen(false);
     } else {
       clearError();

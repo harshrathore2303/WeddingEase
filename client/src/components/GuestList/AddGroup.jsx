@@ -15,7 +15,6 @@ const AddGroup = ({ setIsGroupOpen }) => {
     await addGroup(formData);
     const { error: currentError } = useGuestStore.getState();
     if (!currentError) {
-      await fetchGuests();
       setIsGroupOpen(false);
     }
   };

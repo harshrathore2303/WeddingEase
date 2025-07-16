@@ -12,7 +12,7 @@ const useBudgetStore = create((set) => ({
       const response = await axiosInstance.get('/budget');
       set({ categories: response.data.data});
     } catch (error) {
-      set({ error: error?.response?.data?.message || 'Failed to fetch budget items', isLoading: false });
+      
     } finally {
       set({isLoading: false})
     }

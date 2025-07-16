@@ -38,7 +38,7 @@ const CheckList = () => {
       setNewTitle("");
       setNewPriority("low");
       setNewDueDate("");
-      fetchChecklists();
+      await fetchChecklists();
     }
   };
 
@@ -49,7 +49,7 @@ const CheckList = () => {
       setIsGuestOpen(false);
       clearError();
     }
-    fetchChecklists();
+    await fetchChecklists();
   };
 
   const handleDelete = async (id) => {
@@ -59,7 +59,7 @@ const CheckList = () => {
       setIsGuestOpen(false);
       clearError();
     }
-    fetchChecklists();
+    await fetchChecklists();
   };
 
   return (
@@ -100,10 +100,10 @@ const CheckList = () => {
             <LuLoader className="h-5 w-5 animate-spin" />
           </>
         ) : (
-          <>
+          <div className="flex justify-center items-center gap-2">
             <IoIosAddCircleOutline className="inline mr-1" />
-            "Add Task"
-          </>
+            Add Task
+          </div>
         )}
       </button>
 

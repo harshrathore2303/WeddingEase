@@ -9,15 +9,15 @@ const BudgetManagement = () => {
   const { categories, fetchBudgetItems, deleteBudgetItem } = useBudgetStore();
 
   useEffect(() => {
-    if (!isOpen) fetchBudgetItems();
+    fetchBudgetItems();
   }, [isOpen]);
 
-  const handleDelete = async(id) => {
+  const handleDelete = async (id) => {
     if (
       window.confirm("Are you sure you want to delete this budget category?")
     ) {
       await deleteBudgetItem(id);
-      fetchBudgetItems();
+      await fetchBudgetItems();
     }
   };
 
