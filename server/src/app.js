@@ -11,7 +11,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://wedease-server.onrender.com/",
+    origin: "https://wedease-client.onrender.com",
     credentials: true,
   })
 );
