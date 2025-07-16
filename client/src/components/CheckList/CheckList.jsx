@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useChecklistStore } from "../../store/useCheckListStore";
 import { FaTrashAlt } from "react-icons/fa";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { LuLoader } from "react-icons/lu";
 
 const CheckList = () => {
   const {
@@ -12,6 +13,7 @@ const CheckList = () => {
     deleteChecklist,
     clearError,
     error,
+    isLoading,
   } = useChecklistStore();
 
   const [newTitle, setNewTitle] = useState("");
@@ -93,8 +95,16 @@ const CheckList = () => {
         onClick={handleAddChecklist}
         className="bg-[#3e3c1b] hover:bg-[#2e2c15] text-white px-6 py-2 rounded mb-6"
       >
-        <IoIosAddCircleOutline className="inline mr-1" />
-        Add Task
+        {isLoading ? (
+          <>
+            <LuLoader className="h-5 w-5 animate-spin" />
+          </>
+        ) : (
+          <>
+            <IoIosAddCircleOutline className="inline mr-1" />
+            "Add Task"
+          </>
+        )}
       </button>
 
       <ul className="space-y-4">

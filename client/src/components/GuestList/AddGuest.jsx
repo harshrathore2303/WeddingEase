@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useGuestStore } from "../../store/UseGuestStore";
+import { LuLoader } from "react-icons/lu";
 
 const AddGuest = ({ setIsGuestOpen }) => {
-  const { fetchGuests, guests, addGuest, error, clearError } = useGuestStore();
+  const { fetchGuests, guests, addGuest, error, clearError, isLoading } =
+    useGuestStore();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -37,8 +39,8 @@ const AddGuest = ({ setIsGuestOpen }) => {
     console.log(formData);
 
     await addGuest({ ...formData, title: selectedGroup });
-    const {error: currentError} = useGuestStore.getState();
-    if (!currentError){
+    const { error: currentError } = useGuestStore.getState();
+    if (!currentError) {
       setIsGuestOpen(false);
       clearError();
     }
@@ -106,19 +108,18 @@ const AddGuest = ({ setIsGuestOpen }) => {
             </select>
           </div>
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-          <div className="flex justify-end gap-4 mt-6">
-            <button
-              type="button"
-              className="px-4 py-2 bg-gray-200 rounded-full"
-              onClick={() => setIsGuestOpen(false)}
-            >
-              Cancel
-            </button>
+          <div className="flex justify-end">
             <button
               type="submit"
               className="px-4 py-2 bg-[#3e3c1b] hover:bg-[#2e2c15] text-white rounded-full"
             >
-              Save
+              {isLoading ? (
+                <>
+                  <LuLoader className="h-5 w-5 animate-spin" />
+                </>
+              ) : (
+                "Save"
+              )}
             </button>
           </div>
         </form>

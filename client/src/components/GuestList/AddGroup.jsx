@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useGuestStore } from "../../store/UseGuestStore";
+import { LuLoader } from "react-icons/lu";
 
 const AddGroup = ({ setIsGroupOpen }) => {
-  const { addGroup, clearError, error, fetchGuests } = useGuestStore();
+  const { addGroup, clearError, error, fetchGuests, isLoading } =
+    useGuestStore();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -20,7 +22,10 @@ const AddGroup = ({ setIsGroupOpen }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <form onSubmit={handleSave} className="bg-[#fdfcf4] w-full max-w-sm rounded-xl shadow-xl border border-[#dcd6a3] p-6 relative">
+      <form
+        onSubmit={handleSave}
+        className="bg-[#fdfcf4] w-full max-w-sm rounded-xl shadow-xl border border-[#dcd6a3] p-6 relative"
+      >
         <button
           className="absolute top-2 right-3 text-xl font-bold text-[#3e3c1b] hover:text-red-500 transition"
           onClick={() => {
@@ -49,7 +54,13 @@ const AddGroup = ({ setIsGroupOpen }) => {
             className="px-4 py-2 bg-[#3e3c1b] hover:bg-[#2e2c15] text-white rounded-full"
             type="submit"
           >
-            Save
+            {isLoading ? (
+              <>
+                <LuLoader className="h-5 w-5 animate-spin" />
+              </>
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
       </form>

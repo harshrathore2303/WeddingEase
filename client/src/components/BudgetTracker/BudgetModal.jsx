@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import useBudgetStore from "../../store/useBudgetStore";
+import { LuLoader } from "react-icons/lu";
 
 const BudgetModal = ({ setIsOpen }) => {
-  const { addBudgetItem, error, clearError } = useBudgetStore();
+  const { addBudgetItem, error, clearError, fetchBudgetItems, isLoading } = useBudgetStore();
   const [formData, setFormData] = useState({
     title: "",
     amount: 0,
@@ -19,6 +20,7 @@ const BudgetModal = ({ setIsOpen }) => {
     await addBudgetItem(formData);
     const { error: currentError } = useBudgetStore.getState();
     if (!currentError) {
+      fetchBudgetItems();
       setIsOpen(false);
     } else {
       clearError();
@@ -82,19 +84,19 @@ const BudgetModal = ({ setIsOpen }) => {
 
           {error && <p className="text-red-600 text-sm mt-1">{error}</p>}
 
-          <div className="flex justify-end gap-3 pt-3">
-            <button
-              type="button"
-              onClick={() => setIsOpen(false)}
-              className="px-4 py-2 rounded-md text-sm bg-gray-300 hover:bg-gray-400 text-gray-800"
-            >
-              Cancel
-            </button>
+          <div className="flex justify-end">
             <button
               type="submit"
               className="px-4 py-2 rounded-md text-sm bg-[#AD563B] text-white hover:bg-[#8d3d29]"
             >
-              Save
+              {isLoading ? (
+                    <>
+                      <LuLoader className="h-5 w-5 animate-spin" />
+                    </>
+                  ) : (
+                    "Save"
+                  )}
+              
             </button>
           </div>
         </form>

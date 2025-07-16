@@ -17,6 +17,7 @@ const BudgetManagement = () => {
       window.confirm("Are you sure you want to delete this budget category?")
     ) {
       await deleteBudgetItem(id);
+      fetchBudgetItems();
     }
   };
 
