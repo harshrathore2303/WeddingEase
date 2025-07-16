@@ -25,6 +25,7 @@ const ShowDetails = () => {
   const handleBooking = async () => {
     if (!authUser){
       navigate("/login");
+      return;
     }
     if (!date || !Array.isArray(date) || date.length !== 2) {
       return alert("Please select a date range.");
