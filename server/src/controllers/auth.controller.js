@@ -67,6 +67,7 @@ const signup = async (req, res) => {
     const options = {
       httpOnly: true,
       secure: true,
+      sameSite: "None",
     };
     // console.log(loggedInUser)
     return res.status(200).cookie("token", token, options).json(loggedInUser);
@@ -119,6 +120,7 @@ const login = async (req, res) => {
     const options = {
       httpOnly: true,
       secure: true,
+      sameSite: "None",
     };
 
     return res.status(200).cookie("token", token, options).json(loggedInUser);
