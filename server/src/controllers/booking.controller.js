@@ -11,7 +11,7 @@ const bookService = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const service = await Service.findById(serviceId);
+    const service = await Service.findById(serviceId).populate("adminId", "phone");
     if (!service) return res.status(404).json({ message: "Service not found" });
 
     const conflict = await Booking.findOne({
@@ -30,7 +30,6 @@ const bookService = async (req, res) => {
         .status(409)
         .json({ message: "Service is already booked for these dates" });
     }
-    console.log(service.adminId);
 
     const booking = await Booking.create({
       serviceId,
@@ -41,7 +40,14 @@ const bookService = async (req, res) => {
       purpose,
     });
 
-    console.log(booking);
+    await Notification.create({
+      recipientId: userId,
+      senderId: userId,
+      bookingId: booking._id,
+      message: `You have proceeded for ${service.title}. Please wait until its owner reaches you. You can also contact him with phone ${service.adminId.phone}`
+    })
+
+    // console.log(booking);
 
     return res.status(201).json({ message: "Booking Confirmed" });
   } catch (error) {
@@ -65,7 +71,7 @@ const getUserBooking = async (req, res) => {
 const getAdminBookings = async (req, res) => {
   try {
     const adminId = req.user._id;
-    console.log(await Booking.find({ adminId }));
+    // console.log(await Booking.find({ adminId }));
     const bookings = await Booking.find({ adminId })
       .populate("userId", "fullname phone")
       .populate("serviceId", "title")
@@ -133,10 +139,24 @@ const getConflictedDates = async (req, res) => {
   }
 };
 
+const countPendingBooking = async (req, res) => {
+  try {
+      const userId = req.user._id;
+      
+      const count = await Booking.countDocuments({adminId:userId, status:"Pending"});
+      // console.log("from bookings", count)
+      return res.status(200).json({count: count});
+    } catch (error) {
+      console.error("Error in countNotification:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
 export {
   bookService,
   getUserBooking,
   getAdminBookings,
   updateBooking,
   getConflictedDates,
+  countPendingBooking
 };

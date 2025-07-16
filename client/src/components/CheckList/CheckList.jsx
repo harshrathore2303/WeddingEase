@@ -10,6 +10,8 @@ const CheckList = () => {
     addChecklist,
     updateChecklist,
     deleteChecklist,
+    clearError,
+    error,
   } = useChecklistStore();
 
   const [newTitle, setNewTitle] = useState("");
@@ -18,6 +20,7 @@ const CheckList = () => {
 
   useEffect(() => {
     fetchChecklists();
+    clearError();
   }, []);
 
   const handleAddChecklist = async () => {
@@ -27,25 +30,38 @@ const CheckList = () => {
       priority: newPriority,
       dueDate: newDueDate,
     });
-    setNewTitle("");
-    setNewPriority("low");
-    setNewDueDate("");
-    fetchChecklists();
+    const { error: currentError } = useGuestStore.getState();
+    if (!currentError) {
+      clearError();
+      setNewTitle("");
+      setNewPriority("low");
+      setNewDueDate("");
+      fetchChecklists();
+    }
   };
 
   const toggleCheck = async (item) => {
     await updateChecklist(item._id);
+    const { error: currentError } = useGuestStore.getState();
+    if (!currentError) {
+      setIsGuestOpen(false);
+      clearError();
+    }
     fetchChecklists();
   };
-  
+
   const handleDelete = async (id) => {
     await deleteChecklist(id);
+    const { error: currentError } = useGuestStore.getState();
+    if (!currentError) {
+      setIsGuestOpen(false);
+      clearError();
+    }
     fetchChecklists();
   };
 
   return (
     <div className="font-serif p-6 bg-[#fdfcf4] rounded-xl shadow border border-[#e4e1b5]">
-
       <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 mb-6">
         <input
           type="text"
@@ -72,7 +88,7 @@ const CheckList = () => {
           className="px-4 py-2 border border-[#ccc] rounded outline-none"
         />
       </div>
-
+      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
       <button
         onClick={handleAddChecklist}
         className="bg-[#3e3c1b] hover:bg-[#2e2c15] text-white px-6 py-2 rounded mb-6"

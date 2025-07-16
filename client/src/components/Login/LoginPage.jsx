@@ -23,7 +23,6 @@ const LoginPage = () => {
   return (
     <div className="flex items-center justify-center p-4 shadow-md w-[60%] h-full m-auto font-serif">
       <div className="flex w-full max-w-7xl border-gray-500 border-2">
-        {/* Left Side - Hero Image */}
         <div className="hidden md:flex md:w-1/2 relative">
           <img
             src="https://plus.unsplash.com/premium_photo-1674197235635-3cf3f67a3470?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -37,7 +36,6 @@ const LoginPage = () => {
           </div>
         </div>
 
-        {/* Right Side - Login Form */}
         <div className="flex items-center justify-center w-full md:w-1/2 p-8">
           <div className="w-full max-w-md space-y-8">
             <div className="text-center">
@@ -129,7 +127,6 @@ const LoginPage = () => {
               </div>
             </form>
 
-            {/* Add Create Account Link */}
             <div className="mt-4 text-center">
               <p className="text-sm text-gray-600">
                 Don't have an account?{" "}

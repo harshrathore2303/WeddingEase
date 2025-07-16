@@ -13,7 +13,7 @@ import { useAuthStore } from "./store/UseAuthStore";
 import { LuLoader } from "react-icons/lu";
 import ConfirmPage from "./components/Booking/ConfirmPage";
 import Dashboard from "./components/Admin/Dashboard";
-import Notifications from "./components/Admin/Notifications";
+import Notifications from "./components/Notification/Notifications";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth, isAdmin } = useAuthStore();

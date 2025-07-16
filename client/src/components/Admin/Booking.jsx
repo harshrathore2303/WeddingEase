@@ -3,7 +3,7 @@ import { MdCheckCircle } from "react-icons/md";
 import useBookingStore from "../../store/useBookingStore";
 
 const Bookings = () => {
-  const { fetchAdminBookings, adminBookings, updateBooking } =
+  const { fetchAdminBookings, adminBookings, updateBooking, countBookings } =
     useBookingStore();
 
   useEffect(() => {
@@ -13,6 +13,7 @@ const Bookings = () => {
   const handleConfirm = async (id, status) => {
     await updateBooking({ id, status });
     fetchAdminBookings();
+    countBookings();
   };
 
   return (

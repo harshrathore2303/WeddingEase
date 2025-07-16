@@ -1,6 +1,4 @@
-import { User } from "../models/user.models.js";
 import { Guest } from "../models/guest.models.js";
-import { Event } from "../models/event.models.js";
 
 const addGroup = async (req, res) => {
   try {
@@ -11,9 +9,9 @@ const addGroup = async (req, res) => {
       return res.status(400).json({ message: "No title provided" });
     }
 
-    const exist = await Guest.findOne({title, createdBy: id});
-    if (exist){
-      return res.status(400).json({message: "Already exist"});
+    const exist = await Guest.findOne({ title, createdBy: id });
+    if (exist) {
+      return res.status(400).json({ message: "Already exist" });
     }
 
     const guest = await Guest.create({ title, createdBy: id });
@@ -28,7 +26,7 @@ const addGroup = async (req, res) => {
 const getData = async (req, res) => {
   try {
     const id = req.user._id;
-    const guests = await Guest.find({createdBy: id});
+    const guests = await Guest.find({ createdBy: id });
 
     return res.status(200).json({ guests });
   } catch (error) {
@@ -41,17 +39,30 @@ const addGuest = async (req, res) => {
   try {
     const { title, name, phone, email } = req.body;
     const id = req.user._id;
+    const indianPhoneRegex = /^(?:\+91|91|0)?[6-9]\d{9}$/;
+
+    if (!indianPhoneRegex.test(phone)) {
+      return res.status(400).json({ message: "Invalid Indian phone number" });
+    }
 
     const guests = await Guest.findOne({ createdBy: id, title });
 
-    const checkDulicate = guests.guests.find((g) => g.phone == phone || g.email == email);
-    if (checkDulicate){
-      return res.status(409).json({message: "Guest with this phone or email already exists" });
+    const checkDulicate = guests.guests.find(
+      (g) => g.phone == phone || g.email == email
+    );
+    if (checkDulicate) {
+      return res
+        .status(409)
+        .json({ message: "Guest with this phone or email already exists" });
     }
 
-    const newGuests = await Guest.findByIdAndUpdate(guests._id, {
-      $push: {guests: {name, phone, email}}
-    }, {new: true})
+    const newGuests = await Guest.findByIdAndUpdate(
+      guests._id,
+      {
+        $push: { guests: { name, phone, email } },
+      },
+      { new: true }
+    );
 
     return res.status(200).json({ message: "success" });
   } catch (error) {
@@ -78,7 +89,6 @@ const deleteGroup = async (req, res) => {
   }
 };
 
-
 const deleteGuest = async (req, res) => {
   try {
     const { groupId, guestId } = req.params;
@@ -100,10 +110,4 @@ const deleteGuest = async (req, res) => {
   }
 };
 
-export {
-  addGuest,
-  deleteGuest,
-  getData,
-  addGroup,
-  deleteGroup
-};
+export { addGuest, deleteGuest, getData, addGroup, deleteGroup };

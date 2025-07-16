@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useGuestStore } from "../../store/UseGuestStore";
 
-const AddGuest = ({ setIsGuestOpen, events }) => {
-  const { fetchGuests, guests, addGuest } = useGuestStore();
+const AddGuest = ({ setIsGuestOpen }) => {
+  const { fetchGuests, guests, addGuest, error, clearError } = useGuestStore();
 
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
+    name: "",
+    phone: "",
+    email: "",
     events: [],
   });
 
-  const [selectedGroup, setSelectedGroup] = useState('');
+  const [selectedGroup, setSelectedGroup] = useState("");
 
   useEffect(() => {
     fetchGuests();
+    clearError();
   }, []);
 
   const handleChange = (e) => {
@@ -27,16 +28,20 @@ const AddGuest = ({ setIsGuestOpen, events }) => {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    // console.log("Hello")
-    const { name, phone, email} = formData;
+    console.log(typeof formData.phone);
+    const { name, phone, email } = formData;
 
     if (!name.trim() || !phone.trim() || !email.trim() || !selectedGroup) {
       return;
     }
-    console.log(formData)
+    console.log(formData);
 
     await addGuest({ ...formData, title: selectedGroup });
-    setIsGuestOpen(false);
+    const {error: currentError} = useGuestStore.getState();
+    if (!currentError){
+      setIsGuestOpen(false);
+      clearError();
+    }
   };
 
   return (
@@ -57,6 +62,7 @@ const AddGuest = ({ setIsGuestOpen, events }) => {
           <div className="flex gap-4">
             <input
               name="name"
+              type="text"
               placeholder="Guest name"
               className="w-full px-4 py-2 border border-[#ccc] rounded focus:ring-2 focus:ring-[#797531] outline-none"
               value={formData.name}
@@ -65,6 +71,7 @@ const AddGuest = ({ setIsGuestOpen, events }) => {
             />
             <input
               name="phone"
+              type="tel"
               placeholder="Phone number"
               className="w-full px-4 py-2 border border-[#ccc] rounded focus:ring-2 focus:ring-[#797531] outline-none"
               value={formData.phone}
@@ -73,6 +80,7 @@ const AddGuest = ({ setIsGuestOpen, events }) => {
             />
             <input
               name="email"
+              type="email"
               placeholder="Email"
               className="w-full px-4 py-2 border border-[#ccc] rounded focus:ring-2 focus:ring-[#797531] outline-none"
               value={formData.email}
@@ -97,7 +105,7 @@ const AddGuest = ({ setIsGuestOpen, events }) => {
               ))}
             </select>
           </div>
-
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           <div className="flex justify-end gap-4 mt-6">
             <button
               type="button"
