@@ -12,15 +12,6 @@ const getAllNotifications = async (req, res) => {
   }
 };
 
-const createNotification = async (req, res) => {
-  try {
-    const adminId = req.user._id;
-    const {} = req.body;
-  } catch (error) {
-    
-  }
-}
-
 const markNotificationRead = async (req, res) => {
   try {
     const notifyId = req.params.id;
@@ -55,10 +46,22 @@ const deleteNotification = async (req, res) => {
   }
 };
 
+  const countNotification = async (req, res) => {
+    try {
+      const userId = req.user._id;
+      
+      const count = await Notification.countDocuments({recipientId:userId, isRead:false});
+      
+      return res.status(200).json({count: count});
+    } catch (error) {
+      console.error("Error in countNotification:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
 
 export {
   getAllNotifications,
   markNotificationRead,
   deleteNotification,
-  createNotification
+  countNotification
 };

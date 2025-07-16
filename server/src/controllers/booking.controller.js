@@ -11,7 +11,7 @@ const bookService = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const service = await Service.findById(serviceId);
+    const service = await Service.findById(serviceId).populate("adminId", "phone");
     if (!service) return res.status(404).json({ message: "Service not found" });
 
     const conflict = await Booking.findOne({
@@ -30,7 +30,7 @@ const bookService = async (req, res) => {
         .status(409)
         .json({ message: "Service is already booked for these dates" });
     }
-    console.log(service.adminId);
+    // console.log(service.adminId);
 
     const booking = await Booking.create({
       serviceId,
@@ -41,7 +41,14 @@ const bookService = async (req, res) => {
       purpose,
     });
 
-    console.log(booking);
+    await Notification.create({
+      recipientId: userId,
+      senderId: userId,
+      bookingId: booking._id,
+      message: `You have proceeded for ${service.title}. Please wait until its owner reaches you. You can also contact him with phone ${service.adminId.phone}`
+    })
+
+    // console.log(booking);
 
     return res.status(201).json({ message: "Booking Confirmed" });
   } catch (error) {

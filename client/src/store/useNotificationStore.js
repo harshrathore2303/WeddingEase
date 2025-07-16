@@ -5,7 +5,7 @@ const useNotificationStore = create((set) => ({
   notifications: [],
   isLoading: false,
   error: null,
-
+  count: 0,
   fetchNotifications: async () => {
     set({ isLoading: true });
     try {
@@ -36,7 +36,20 @@ const useNotificationStore = create((set) => ({
     try {
       await axiosInstance.delete(`/notification/${id}`);
     } catch (error) {
-      console.log("Error in update notification in useNotificationStore", error);
+      console.log("Error in delte notification in useNotificationStore", error);
+      set({error: error?.response?.data?.message});
+    } finally {
+      set({isLoading: false});
+    }
+  },
+
+  countNotifications: async (params) => {
+    set({isLoading: true});
+    try {
+      const res = await axiosInstance.get("/notification/count");
+      set({count: res.data.count});
+    } catch (error) {
+      console.log("Error in count notification in useNotificationStore", error);
       set({error: error?.response?.data?.message});
     } finally {
       set({isLoading: false});

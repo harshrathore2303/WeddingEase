@@ -7,15 +7,17 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useServiceStore } from "../../store/UseServiceStore";
 import useBookingStore from "../../store/useBookingStore";
+import useNotificationStore from "../../store/useNotificationStore";
 
 const ShowDetails = () => {
   const navigate = useNavigate();
   const { getServiceById, isLoading, service } = useServiceStore();
   const { bookService, conflicts, getConflicts } = useBookingStore();
+  const {countNotifications} = useNotificationStore();
   const { id } = useParams();
 
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
     if (!date || !Array.isArray(date) || date.length !== 2) {
       return alert("Please select a date range.");
     }
@@ -28,12 +30,13 @@ const ShowDetails = () => {
       endDate = date[0];
     }
 
-    bookService({
+    await bookService({
       serviceId: id,
       startDate: startDate,
       endDate: endDate,
       purpose: "General booking",
     });
+    await countNotifications();
     navigate(`/confirmed?start=${date[0]}&end=${date[1]}`)
   };
 

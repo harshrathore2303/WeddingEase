@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaHome, FaBell, FaTools, FaUserAlt } from "react-icons/fa";
 import { IoPeople } from "react-icons/io5";
 import { HiDotsVertical } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
 import { useAuthStore } from "../../store/UseAuthStore";
+import useNotificationStore from "../../store/useNotificationStore";
 
 export default function NavBar() {
   const { authUser, logout } = useAuthStore();
+  const { countNotifications, count } = useNotificationStore();
+
+  useEffect(() => {
+    countNotifications();
+  }, []);
 
   const [toggle, setToggle] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
@@ -111,11 +117,14 @@ export default function NavBar() {
                 isActive ? "text-blue-700 underline" : ""
               } underline-offset-8`
             }
-          > 
-            <FaBell
-              size={25}
-              className="mx-2 cursor-pointer hover:ease-out transition hover:scale-110 duration-100"
-            />
+          >
+            <span className="relative">
+              <sub className="absolute top-0 right-0 text-red-800">{count}</sub>
+              <FaBell
+                size={25}
+                className="mx-2 cursor-pointer hover:ease-out transition hover:scale-110 duration-100"
+              />
+            </span>
           </NavLink>
         </div>
 
@@ -200,10 +209,13 @@ export default function NavBar() {
               } underline-offset-8`
             }
           >
-            <FaBell
-              size={20}
-              className="mx-2 cursor-pointer hover:ease-out transition hover:scale-110 duration-100"
-            />
+            <span className="relative">
+              <sub className="absolute top-0 right-0 text-red-800">{count}</sub>
+              <FaBell
+                size={20}
+                className="mx-2 cursor-pointer hover:ease-out transition hover:scale-110 duration-100"
+              />
+            </span>
           </NavLink>
         </div>
       </nav>

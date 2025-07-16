@@ -4,7 +4,7 @@ import useNotificationStore from "../../store/useNotificationStore";
 import { useEffect } from "react";
 
 const Notifications = () => {
-  const {fetchNotifications, notifications, deleteNotification, updateNotification} = useNotificationStore();
+  const {fetchNotifications, notifications, deleteNotification, updateNotification, countNotifications } = useNotificationStore();
 
   useEffect(() => {
     fetchNotifications();
@@ -13,10 +13,12 @@ const Notifications = () => {
   const handleRead = async (id) => {
     await updateNotification(id);
     fetchNotifications();
+    countNotifications();
   }
   const handleDelete = async (id) => {
     await deleteNotification(id);
     fetchNotifications();
+    countNotifications();
   }
 
   return (
