@@ -69,11 +69,11 @@ export default function NavBar() {
 
           <div
             className="relative bg-gray-300 rounded-full inline-block aspect-square cursor-pointer"
-            onClick={() => setToggleProfile((prev) => !prev)}
           >
             <FaUserAlt
               size={20}
               className="m-2 hover:ease-out transition hover:scale-110 duration-100"
+              onClick={() => setToggleProfile((prev) => !prev)}
             />
             {toggleProfile && (
               <div className="absolute bg-white border border-gray-800 rounded-lg right-0 mt-3 w-40 overflow-hidden">
