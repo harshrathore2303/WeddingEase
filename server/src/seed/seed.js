@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import { Service } from '../models/service.models.js';
 
-await mongoose.connect("mongodb://localhost:27017/weddingplanner");
+await mongoose.connect(""); // enter mongodb credentials
 
-const adminId = new mongoose.Types.ObjectId("6860304542076709c67a9b48");
+const adminId = new mongoose.Types.ObjectId("6877cb1d8e066a523b033107");
 
 const imagePool = [
   "https://res.cloudinary.com/dpsgxzjzw/image/upload/v1751630161/decor_bgzh9s.jpg",
@@ -27,7 +27,7 @@ const getRandomImages = () => {
 
 const services = Array.from({ length: 30 }).map((_, i) => ({
   title: `${randomElement(["Elegant", "Royal", "Classic", "Elite", "Grand", "Shining", "Charming", "Glamorous"])} ${randomElement(tags)}`,
-  price: Math.floor(Math.random() * 90000) + 10000,
+  price: Math.floor(Math.random() * 15000) + 10000,
   location: randomElement(["Jaipur", "Delhi", "Mumbai", "Bangalore", "Udaipur", "Agra", "Kolkata"]),
   dp: randomElement(imagePool),
   tag: randomElement(tags),

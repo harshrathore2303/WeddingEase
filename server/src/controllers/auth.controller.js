@@ -6,6 +6,12 @@ const signup = async (req, res) => {
   try {
     const { username, email, fullname, password, phone, role } = req.body;
 
+    const indianPhoneRegex = /^(?:\+91|91|0)?[6-9]\d{9}$/;
+
+    if (!indianPhoneRegex.test(phone)) {
+      return res.status(400).json({ message: "Invalid Indian phone number" });
+    }
+
     if (
       username.trim() === "" ||
       email.trim() === "" ||
@@ -162,18 +168,20 @@ const updateProfile = async (req, res) => {
   try {
     const { fullname, email, password, confirmPassword, phone, username } =
       req.body;
-    console.log("Reached here")
-    if ([fullname, email, password, confirmPassword, phone, username].some((field) => field.trim() === "")){
-      return res.status(400).json({message: "Empty fields not allowed"});
+    // console.log("Reached here")
+    if (
+      [fullname, email, password, confirmPassword, phone, username].some(
+        (field) => field.trim() === ""
+      )
+    ) {
+      return res.status(400).json({ message: "Empty fields not allowed" });
     }
     const id = req.user._id;
 
     if (password !== confirmPassword) {
-      return res
-        .status(400)
-        .json({
-          message: "Password unmatch in comfirm passfield and password field",
-        });
+      return res.status(400).json({
+        message: "Password unmatch in comfirm passfield and password field",
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -184,7 +192,7 @@ const updateProfile = async (req, res) => {
       { new: true }
     );
 
-    return res.status(200).json({message: "Update Success"});
+    return res.status(200).json({ message: "Update Success" });
   } catch (error) {
     console.log("Error in put operation:", error);
     return res.status(500).json({ message: "Internal server error" });

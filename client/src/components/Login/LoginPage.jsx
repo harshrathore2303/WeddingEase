@@ -104,13 +104,7 @@ const LoginPage = () => {
                 <p className="text-red-500 text-sm mt-2">{loginErr}</p>
               )}
 
-              <div className="flex items-center justify-between">
-                <a
-                  href="#"
-                  className="text-sm text-base-but hover:text-base-butHover"
-                >
-                  Forgot your password?
-                </a>
+              <div className="">
                 <button
                   type="submit"
                   className="group relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-base-but hover:bg-base-butHover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
