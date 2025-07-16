@@ -119,7 +119,7 @@ export default function NavBar() {
             }
           >
             <span className="relative">
-              <sub className="absolute top-0 right-0 text-red-800">{count}</sub>
+              <sub className={`absolute top-0 right-0 text-red-800 ${count == 0 ? "hidden" : ""}`}>{count}</sub>
               <FaBell
                 size={25}
                 className="mx-2 cursor-pointer hover:ease-out transition hover:scale-110 duration-100"
@@ -210,7 +210,7 @@ export default function NavBar() {
             }
           >
             <span className="relative">
-              <sub className="absolute top-0 right-0 text-red-800">{count}</sub>
+              <sub className={`absolute top-0 right-0 text-red-800 ${count == 0 ? "hidden" : ""}`}>{count}</sub>
               <FaBell
                 size={20}
                 className="mx-2 cursor-pointer hover:ease-out transition hover:scale-110 duration-100"

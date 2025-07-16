@@ -30,7 +30,6 @@ const bookService = async (req, res) => {
         .status(409)
         .json({ message: "Service is already booked for these dates" });
     }
-    // console.log(service.adminId);
 
     const booking = await Booking.create({
       serviceId,
@@ -72,7 +71,7 @@ const getUserBooking = async (req, res) => {
 const getAdminBookings = async (req, res) => {
   try {
     const adminId = req.user._id;
-    console.log(await Booking.find({ adminId }));
+    // console.log(await Booking.find({ adminId }));
     const bookings = await Booking.find({ adminId })
       .populate("userId", "fullname phone")
       .populate("serviceId", "title")
@@ -140,10 +139,24 @@ const getConflictedDates = async (req, res) => {
   }
 };
 
+const countPendingBooking = async (req, res) => {
+  try {
+      const userId = req.user._id;
+      
+      const count = await Booking.countDocuments({adminId:userId, status:"Pending"});
+      // console.log("from bookings", count)
+      return res.status(200).json({count: count});
+    } catch (error) {
+      console.error("Error in countNotification:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
 export {
   bookService,
   getUserBooking,
   getAdminBookings,
   updateBooking,
   getConflictedDates,
+  countPendingBooking
 };

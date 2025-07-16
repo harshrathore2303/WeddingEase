@@ -7,6 +7,7 @@ const useBookingStore = create((set) => ({
   conflicts: [],
   isLoading: false,
   error: null,
+  count: 0,
 
   fetchUserBookings: async () => {
     set({ isLoading: true });
@@ -66,6 +67,19 @@ const useBookingStore = create((set) => ({
       set({conflicts: res.data.data});
     } catch (error) {
       console.error("Failed to get conflicts:", error);
+      set({ error: error?.response?.data?.message });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  countBookings: async (params) => {
+    set({ isLoading: true });
+    try {
+      const res = await axiosInstance.get(`/booking/count`);
+      set({count: res.data.count});
+    } catch (error) {
+      console.error("Failed to get countBookings:", error);
       set({ error: error?.response?.data?.message });
     } finally {
       set({ isLoading: false });

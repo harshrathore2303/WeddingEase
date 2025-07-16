@@ -22,8 +22,8 @@ const ShowDetails = () => {
       return alert("Please select a date range.");
     }
 
-    const startDate = date[0];
-    const endDate = date[1];
+    let startDate = date[0];
+    let endDate = date[1];
 
     if (date[0] > date[1]){
       startDate = date[1];
