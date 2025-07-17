@@ -1,12 +1,14 @@
 # 💒 Wedease – Your Ultimate Wedding Service Booking Platform
 
+> A full-stack wedding service platform to plan, book, and organize your big day with ease.
+
+---
+
 ## 📝 Description
 
-> 🚧 This project is currently under construction. Expect frequent updates, new features, and design improvements.
+**Wedease** is a full-featured web application that enables users to find, filter, and book trusted wedding service providers such as venues, photographers, decorators, and more across top Indian cities.
 
-**Wedease** is a full-featured platform that helps users find, filter, and book trusted wedding service providers with ease. Whether you need a venue, photographer, decorator, or even a mehendi artist, Wedease connects customers with verified professionals across top cities in India.
-
-This project demonstrates a scalable service-based architecture with search, filtering, pagination, and admin service control.
+The platform supports features like real-time availability checks, booking protection, service management, admin dashboard, and wedding planning tools — all under one roof.
 
 ---
 
@@ -18,53 +20,76 @@ This project demonstrates a scalable service-based architecture with search, fil
 * [Usage](#-usage)
 * [Screenshots](#-screenshots)
 * [Credits](#-credits)
+* [Upcoming Features](#-upcoming-features)
+* [Contributing](#-contributing)
+* [License](#-license)
 
 ---
 
 ## 🌟 Features
 
-* 🔍 Server Side filtering (by tag, location, and search query)
-* 📃 Paginated service listing
-* 📷 Upload images using Cloudinary
-* 👨‍💼 Admin panel to manage services
-* 🗓️ Tools to plan weddings budget, guests and checklist
-* 💬 User reviews & ratings *(coming soon)*
-* 📩 Payment Gateway for booking *(comming soon)*
-* 📩 real-time notifications *(planned)*
+* 🔍 **Advanced Filtering** – Search and filter services by category, city, tags, and keywords.
+* 📃 **Paginated Listings** – Load services efficiently with pagination.
+* 📷 **Image Uploads** – Integrated with Cloudinary for image handling.
+* 🧾 **Wedding Planning Tools** – Budget tracker, guest list, and checklist management.
+* 🔐 **JWT Authentication** – Secure login for users and admins.
+* 👨‍💼 **Admin Dashboard** – Manage and approve services.
+* ❌ **Booking Conflict Protection** – Prevents users from booking already-reserved time slots.
+* 💬 **Review System** – Coming soon.
+* 💸 **Payment Integration** – Coming soon.
+* 🔔 **Real-time Notifications** – Planned for next release.
 
 ---
 
-## 🧰 Tech Stack
+## 🧠 Tech Stack
 
-* **Frontend**: React, TailwindCSS, Zustand, React Router
-* **Backend**: Node.js, Express.js, MongoDB, Mongoose
-* **Cloud**: Cloudinary (for image uploads)
-* **Others**: Multer, JWT Auth, dotenv, Axios
+**Frontend:**
+
+* React.js
+* Tailwind CSS
+* React Router
+* Zustand (state management)
+
+**Backend:**
+
+* Node.js
+* Express.js
+* MongoDB + Mongoose
+
+**Cloud & Tools:**
+
+* Cloudinary (image uploads)
+* Multer (file uploads)
+* JWT (authentication)
+* Axios (HTTP client)
+* dotenv (environment variables)
 
 ---
 
 ## 🛠️ Installation
 
-Clone the repository and install dependencies for both client and server:
+Clone the repo and install dependencies for both client and server:
 
 ```bash
 git clone https://github.com/harshrathore2303/WeddingEase.git
 cd WeddingEase
 
-# Install server dependencies
+# Server setup
 cd server
 npm install
 
-# Install client dependencies
+# Client setup
 cd ../client
 npm install
 ```
 
-Create `.env` files in both `server` and `client` directories with the following environment variables:
+### 🔐 Environment Setup
 
-### Server `.env`
+Create `.env` files in both `server` and `client` directories.
 
-```
+#### Server `.env`
+
+```env
 PORT=5000
 MONGODB_URI=your_mongodb_connection_string
 CLOUDINARY_CLOUD_NAME=your_cloudinary_name
@@ -77,38 +102,74 @@ JWT_SECRET=your_jwt_secret
 
 ## ▶️ Usage
 
-Start both backend and frontend:
+Start both the backend and frontend locally:
 
 ```bash
-# Start backend
+# Backend
 cd server
 npm run dev
 
-# Start frontend
+# Frontend
 cd ../client
 npm run dev
 ```
 
-Then open [http://localhost:5173](http://localhost:5173) in your browser.
+Then navigate to: [http://localhost:5173](http://localhost:5173)
 
 ---
 
 ## 📸 Screenshots
 
-### User Pages
+### User Interface
 
-![Home](https://github.com/user-attachments/assets/0ef07c7d-ca9b-48c7-a0b2-171f734b229e)
-![Organize with Professionals](https://github.com/user-attachments/assets/132e72e5-0efb-42e8-9208-b42c3b0796aa)
-![Planning Tools](https://github.com/user-attachments/assets/05468746-26c0-42df-bb0c-c01f78a5bfcb)
+![Home Page](image.png)
+![Organize](image-1.png)
+![Planning](image-2.png)
 
+### Admin Panel
 
-### Admin Dashboard
-
-![Manage Your Services as an Admin](https://github.com/user-attachments/assets/876ddd99-764d-47c0-95a2-f5e4279564bd)
+![Admin Dashboard](image-3.png)
 
 ---
 
-## 🙌 Credits
+## 👌 Credits
 
-* Built with 💖 by [Harshit Singh Rathore](https://github.com/harshrathore2303)
-* Image storage powered by [Cloudinary](https://cloudinary.com/)
+* 👨‍💻 **Developer:** [Harshit Singh Rathore](https://github.com/harshrathore2303)
+* 🤝 **Collaborator:** [Ayush Rathi](https://github.com/ayush1234rathi)
+* ☁️ **Image Storage:** [Cloudinary](https://cloudinary.com/)
+
+---
+
+## 🚀 Upcoming Features
+
+* ↻ Real-time updates via WebSockets
+* 💳 Razorpay/Stripe integration for payments
+* 🧾 Invoice and booking history
+* 💬 Live review & rating system
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions from the community! If you'd like to help improve this project:
+
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature/YourFeatureName`)
+3. Commit your changes (`git commit -m 'Add new feature'`)
+4. Push to the branch (`git push origin feature/YourFeatureName`)
+5. Create a Pull Request
+
+Feel free to open issues for any bugs or suggestions.
+
+---
+
+## 🪪 License
+
+This project is licensed under the **MIT License**.
+[Learn more about licenses →](https://choosealicense.com)
+
+---
+
+## 🌐 Live Preview
+
+🔗 [Visit Live Site](https://wedease-client.onrender.com)
